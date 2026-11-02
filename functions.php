@@ -5,7 +5,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'SVV_VERSION', '0.3.0' );
+define( 'SVV_VERSION', '0.4.0' );
 define( 'SVV_TAGLINE', 'Freelance AI Ads specialist' );
 
 /**
@@ -31,8 +31,10 @@ add_action( 'after_setup_theme', function () {
 
 add_action( 'wp_enqueue_scripts', function () {
 	$uri = get_template_directory_uri();
-	wp_enqueue_style( 'svv', $uri . '/assets/css/main.css', array(), SVV_VERSION );
-	wp_enqueue_script( 'svv', $uri . '/assets/js/main.js', array(), SVV_VERSION, array( 'in_footer' => true, 'strategy' => 'defer' ) );
+	$dir = get_template_directory();
+	// Versie = tijdstip van het bestand: na elke uitrol halen browsers direct de nieuwe versie.
+	wp_enqueue_style( 'svv', $uri . '/assets/css/main.css', array(), (string) filemtime( $dir . '/assets/css/main.css' ) );
+	wp_enqueue_script( 'svv', $uri . '/assets/js/main.js', array(), (string) filemtime( $dir . '/assets/js/main.js' ), array( 'in_footer' => true, 'strategy' => 'defer' ) );
 	// Geen blokbibliotheek-CSS op de voorkant als we die niet gebruiken.
 	wp_dequeue_style( 'wp-block-library-theme' );
 	wp_dequeue_style( 'global-styles' );
