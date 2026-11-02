@@ -46,7 +46,7 @@ add_action( 'wp_footer', function () {
 	if ( is_admin() ) {
 		return;
 	}
-	$cookie_page = get_page_by_path( 'cookies' );
+	$cookie_page = get_page_by_path( 'cookies' ) ?: get_page_by_path( 'privacy-statement' );
 	$cookie_url  = $cookie_page && 'publish' === $cookie_page->post_status ? get_permalink( $cookie_page ) : get_privacy_policy_url();
 	?>
 <div id="svv-cc" class="svv-cc" role="dialog" aria-modal="false" aria-labelledby="svv-cc-t" hidden>
