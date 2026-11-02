@@ -70,6 +70,25 @@ add_filter( 'wpseo_metadesc', function ( $desc ) {
 	return is_front_page() ? 'Adverteren in ChatGPT, Google Ads met AI Max, Microsoft Ads en social ads. Twintig jaar ervaring, elk nieuw kanaal eerst getest met eigen budget.' : $desc;
 } );
 
+/**
+ * Dienstpagina's: titel en beschrijving volgen de paginatitel en samenvatting.
+ * De oude Yoast-titels per pagina (uit de Divi-tijd) gelden dan niet meer.
+ */
+function svv_is_service_page() {
+	return is_page() && array_key_exists( get_post_field( 'post_name', get_queried_object_id() ), svv_services() );
+}
+foreach ( array( 'wpseo_title', 'wpseo_opengraph_title' ) as $svv_hook ) {
+	add_filter( $svv_hook, function ( $title ) {
+		return svv_is_service_page() ? get_the_title( get_queried_object_id() ) . ' – Stijn van Veelen' : $title;
+	}, 20 );
+}
+foreach ( array( 'wpseo_metadesc', 'wpseo_opengraph_desc' ) as $svv_hook ) {
+	add_filter( $svv_hook, function ( $desc ) {
+		$excerpt = svv_is_service_page() ? get_post_field( 'post_excerpt', get_queried_object_id() ) : '';
+		return $excerpt ? wp_strip_all_tags( $excerpt ) : $desc;
+	}, 20 );
+}
+
 // Rommel uit de head.
 remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
 remove_action( 'wp_print_styles', 'print_emoji_styles' );
