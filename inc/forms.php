@@ -33,7 +33,7 @@ function svv_form( $type = 'aanvraag', $args = array() ) {
 	ob_start();
 	if ( $sent ) {
 		if ( 'nieuwsbrief' === $type ) {
-			$ok = 'Je bent aangemeld. Je eerste mail komt deze week.';
+			$ok = 'Je bent aangemeld. De eerste mail komt zodra er nieuwe testresultaten zijn.';
 		} elseif ( 'bakkie' === $type ) {
 			$ok = 'Top. Binnen een werkdag krijg je een paar tijden voorgesteld.';
 		} else {
@@ -52,6 +52,7 @@ function svv_form( $type = 'aanvraag', $args = array() ) {
 	<form class="svv-form svv-form--<?php echo esc_attr( $type ); ?><?php echo $args['chat'] ? ' svv-prompt' : ''; ?>" method="post" action="<?php echo $action; ?>">
 		<input type="hidden" name="action" value="svv_lead">
 		<input type="hidden" name="svv_type" value="<?php echo esc_attr( $type ); ?>">
+		<input type="hidden" name="svv_transcript" value="">
 		<input type="hidden" name="svv_page" value="<?php echo esc_url( get_permalink() ?: home_url( '/' ) ); ?>">
 		<?php wp_nonce_field( 'svv_lead', 'svv_nonce' ); ?>
 		<div class="svv-hp" aria-hidden="true"><label>Laat leeg<input type="text" name="svv_website" tabindex="-1" autocomplete="off"></label></div>
@@ -76,7 +77,7 @@ function svv_form( $type = 'aanvraag', $args = array() ) {
 			<label class="svv-sr" for="<?php echo esc_attr( $uid ); ?>-msg">Je vraag</label>
 			<textarea id="<?php echo esc_attr( $uid ); ?>-msg" name="svv_message" rows="2" required placeholder="<?php echo esc_attr( $args['placeholder'] ); ?>"></textarea>
 			<div class="svv-prompt__row">
-				<label class="svv-sr" for="<?php echo esc_attr( $uid ); ?>-mail">Je zakelijke e-mailadres</label>
+				<label class="svv-prompt__hint" for="<?php echo esc_attr( $uid ); ?>-mail">Waar mag Stijn het antwoord naartoe sturen?</label>
 				<input id="<?php echo esc_attr( $uid ); ?>-mail" type="email" name="svv_email" required placeholder="je zakelijke e-mailadres" autocomplete="email">
 				<button class="svv-send" type="submit" aria-label="<?php echo esc_attr( $args['button'] ); ?>"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="6 11 12 5 18 11"/></svg></button>
 			</div>
@@ -114,6 +115,10 @@ function svv_handle_lead() {
 	$phone   = sanitize_text_field( wp_unslash( $_POST['svv_phone'] ?? '' ) );
 	$where   = sanitize_text_field( wp_unslash( $_POST['svv_where'] ?? '' ) );
 	$where   = in_array( $where, array( 'digitaal', 'aan tafel' ), true ) ? $where : '';
+	$transcript = sanitize_textarea_field( wp_unslash( $_POST['svv_transcript'] ?? '' ) );
+	if ( $transcript ) {
+		$message = trim( $message . "\n\n--- Gesprek met de AI-assistent ---\n" . mb_substr( $transcript, 0, 8000 ) );
+	}
 	if ( 'bakkie' === $type ) {
 		$message = trim( 'Voorkeur: ' . ( $where ?: 'onbekend' ) . ( $phone ? "\nTelefoon: {$phone}" : '' ) . "\n\n" . $message );
 	}

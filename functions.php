@@ -5,7 +5,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'SVV_VERSION', '0.2.0' );
+define( 'SVV_VERSION', '0.3.0' );
 define( 'SVV_TAGLINE', 'Freelance AI Ads specialist' );
 
 /**
@@ -67,7 +67,7 @@ add_filter( 'wpseo_opengraph_title', function ( $title ) {
 	return is_front_page() ? svv_home_title() : $title;
 } );
 add_filter( 'wpseo_metadesc', function ( $desc ) {
-	return is_front_page() ? 'Adverteren in ChatGPT, Google Ads met AI Max, Microsoft Ads en social ads. Twintig jaar ervaring, elk nieuw kanaal eerst getest met eigen budget.' : $desc;
+	return is_front_page() ? 'Adverteren in ChatGPT, Google Ads met AI Max, Microsoft Ads en social ads. Twintig jaar ervaring, elk nieuw kanaal eerst getest op eigen platforms.' : $desc;
 } );
 
 /**
@@ -89,6 +89,43 @@ foreach ( array( 'wpseo_metadesc', 'wpseo_opengraph_desc' ) as $svv_hook ) {
 	}, 20 );
 }
 
+/**
+ * Snelheid: oude Divi-plugins laden niets op de homepage en dienstpagina's.
+ * Blogberichten houden alles (oude berichten kunnen er nog op leunen).
+ */
+function svv_lean_page() {
+	return ! is_admin() && ( is_front_page() || is_page() );
+}
+function svv_trim_assets() {
+	if ( ! svv_lean_page() ) {
+		return;
+	}
+	$block = array( '/plugins/bloom/', '/plugins/addons-for-divi/', '/plugins/a3-lazy-load/', '/plugins/contact-form-7/', '/plugins/kraft-portfolio/', 'fonts.googleapis.com' );
+	foreach ( array( wp_styles(), wp_scripts() ) as $deps ) {
+		foreach ( (array) $deps->queue as $handle ) {
+			$src = isset( $deps->registered[ $handle ] ) ? (string) $deps->registered[ $handle ]->src : '';
+			foreach ( $block as $needle ) {
+				if ( '' !== $src && false !== strpos( $src, $needle ) ) {
+					$deps->dequeue( $handle );
+					break;
+				}
+			}
+		}
+	}
+	wp_dequeue_style( 'wp-block-library' );
+	wp_dequeue_style( 'global-styles' );
+}
+add_action( 'wp_enqueue_scripts', 'svv_trim_assets', 999 );
+add_action( 'wp_print_styles', 'svv_trim_assets', 1 );
+add_action( 'wp_print_footer_scripts', 'svv_trim_assets', 1 );
+add_action( 'wp', function () {
+	if ( svv_lean_page() ) {
+		remove_action( 'wp_enqueue_scripts', 'wp_enqueue_global_styles' );
+		remove_action( 'wp_footer', 'wp_enqueue_global_styles', 1 );
+		remove_action( 'wp_head', 'wp_print_auto_sizes_contain_css_fix', 1 );
+	}
+} );
+
 // Rommel uit de head.
 remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
 remove_action( 'wp_print_styles', 'print_emoji_styles' );
@@ -96,6 +133,59 @@ remove_action( 'wp_head', 'wp_generator' );
 remove_action( 'wp_head', 'wlwmanifest_link' );
 remove_action( 'wp_head', 'rsd_link' );
 add_filter( 'xmlrpc_enabled', '__return_false' );
+
+/**
+ * Voorbereide vragen op de homepage (ook kennis voor de AI-assistent).
+ */
+function svv_faqs() {
+	return array(
+		array(
+			'q'    => 'Kan ik adverteren in ChatGPT?',
+			'a'    => 'Ja, sinds eind augustus ook in Nederland. Op mijn eigen platforms draaien de eerste campagnes al. Zin in een pilot? Vaste opzet, jouw budget en na een paar weken een eerlijk verslag.',
+			'link' => array( 'Adverteren in ChatGPT', svv_service_url( 'chatgpt-adverteren' ) ),
+		),
+		array(
+			'q'    => 'Google zet mijn campagnes om naar AI Max. Wat nu?',
+			'a'    => 'Google zet dynamische zoekadvertenties en brede instellingen automatisch om naar AI Max. Zonder merkuitsluitingen en goede uitsluitingszoekwoorden betaal je dan vaak meer per aanvraag. Goed inrichten en scherp toezicht houden: daar zit het verschil.',
+			'link' => array( 'Google & Microsoft Ads', svv_service_url( 'sea-specialist-google-ads' ) ),
+		),
+		array(
+			'q'    => 'Werkt TikTok of LinkedIn voor mijn bedrijf?',
+			'a'    => 'Dat hangt af van wie je wilt bereiken. Meta en TikTok voor bereik bij consumenten, LinkedIn voor beslissers in B2B. Samen kijken we waar jouw klant zit en beginnen we klein.',
+			'link' => array( 'Social Ads', svv_service_url( 'social-media-advertising-specialist' ) ),
+		),
+		array(
+			'q'    => 'Word ik gevonden in ChatGPT?',
+			'a'    => 'Dat hangt af van hoe je site in elkaar zit en wat er over je bedrijf online staat. Met SEO en GEO zorg ik dat je gevonden wordt in Google én genoemd in AI-antwoorden.',
+			'link' => array( 'SEO & GEO', svv_service_url( 'seo-specialist-inhuren-op-freelance-basis' ) ),
+		),
+	);
+}
+
+/**
+ * Eigen platforms van New Road Digital (getest op eigen platforms).
+ */
+function svv_platforms() {
+	return array(
+		'Autobaak'          => 'https://www.autobaak.nl/',
+		'Therapievergelijk' => 'https://www.therapievergelijk.nl/',
+		'KeuringsNetwerk'   => 'https://www.keuringsnetwerk.nl/',
+		'BouwkundeCheck'    => 'https://www.bouwkundecheck.nl/',
+		'BeroepsRijbewijs'  => 'https://www.beroepsrijbewijs.nl/',
+	);
+}
+
+/**
+ * Lijst van platforms als links: "A, B en C".
+ */
+function svv_platform_links() {
+	$links = array();
+	foreach ( svv_platforms() as $name => $url ) {
+		$links[] = '<a href="' . esc_url( $url ) . '">' . esc_html( $name ) . '</a>';
+	}
+	$last = array_pop( $links );
+	return implode( ', ', $links ) . ' en ' . $last;
+}
 
 /**
  * URL van een dienst op basis van slug (valt terug op /slug/).
@@ -135,7 +225,7 @@ add_action( 'customize_register', function ( $wp_customize ) {
 	$fields = array(
 		'svv_available'     => array( 'Beschikbaar vanaf', 'direct' ),
 		'svv_calendar'      => array( 'Agendalink voor een bakkie (optioneel)', '' ),
-		'svv_kvk'           => array( 'KvK-nummer', '[nummer]' ),
+		'svv_kvk'           => array( 'KvK-nummer', '70585245' ),
 		'svv_linkedin'      => array( 'LinkedIn-URL', 'https://www.linkedin.com/in/stijn-van-veelen' ),
 	);
 	foreach ( $fields as $key => $f ) {
@@ -149,3 +239,4 @@ function svv_opt( $key, $fallback = '' ) {
 }
 
 require get_template_directory() . '/inc/forms.php';
+require get_template_directory() . '/inc/bot.php';

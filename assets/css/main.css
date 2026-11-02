@@ -123,6 +123,25 @@ input,textarea,button{font:inherit;color:inherit}
 .svv-list{list-style:none;margin:0;padding:0;border-top:1px solid var(--slate)}
 .svv-list li{display:flex;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid var(--slate)}
 
+/* AI-assistent */
+.svv-prompt__hint{flex:1 1 100%;margin:0;font-size:13px;color:var(--mist)}
+.svv-prompt.is-bot .svv-prompt__hint,.svv-prompt.is-bot .svv-prompt__row input[type=email]{display:none}
+.svv-prompt.is-bot .svv-prompt__row{justify-content:flex-end}
+.svv-prompt.is-bot.is-handoff .svv-prompt__hint{display:block;color:var(--text)}
+.svv-prompt.is-bot.is-handoff .svv-prompt__row input[type=email]{display:block}
+.svv-prompt.is-busy .svv-send{opacity:.5;cursor:wait}
+.svv-avatar{flex:0 0 30px;width:30px;height:30px;display:block}
+.svv-avatar svg{display:block}
+.svv-typing{display:flex;gap:4px;padding-top:12px!important}
+.svv-typing span{width:6px;height:6px;border-radius:50%;background:var(--mist);animation:svv-dot 1s infinite ease-in-out}
+.svv-typing span:nth-child(2){animation-delay:.15s}.svv-typing span:nth-child(3){animation-delay:.3s}
+@keyframes svv-dot{0%,80%,100%{opacity:.3;transform:translateY(0)}40%{opacity:1;transform:translateY(-3px)}}
+.svv-a ul{margin:6px 0 0;padding-left:18px}
+.svv-turn--bot .svv-a a{display:inline;margin:0;font-weight:600}
+.svv-actions{margin-top:14px;display:flex;flex-wrap:wrap;gap:8px}
+.svv-actions[hidden]{display:none}
+.svv-actions a.svv-chip{text-decoration:none}
+
 /* Bakkie */
 .svv-bakkie{display:flex;flex-wrap:wrap;gap:32px;align-items:flex-start}
 .svv-bakkie__text{flex:1 1 360px;min-width:0}

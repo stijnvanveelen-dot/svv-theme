@@ -19,3 +19,14 @@ Hook `svv_lead_created` voor de Bigin-koppeling. Honeypot + nonce + max. 5 per u
 ## Meetpunten (dataLayer)
 - `svv_chip` (svv_question) — klik op vraagknop
 - `svv_lead_submit` (svv_type) — formulier verstuurd
+
+## AI-assistent (homepage)
+`inc/bot.php`. Instellingen → **AI-assistent**: aan/uit, aanbieder (Anthropic of OpenAI), model, API-sleutel (of `SVV_BOT_KEY` in wp-config.php), daglimiet.
+- Kennis = dienstpagina's (titel, samenvatting, tekst) + vragen op de homepage (`svv_faqs()`) + vaste regels (geen tarieven, geen verzinsels, derde persoon).
+- REST `POST /wp-json/svv/v1/chat`. Grenzen: 20 vragen per uur per bezoeker, 8 per gesprek, daglimiet.
+- "Laat Stijn zelf reageren": e-mailveld verschijnt, gesprek gaat mee in de aanvraag.
+- Uit of geen sleutel: het venster werkt als gewoon contactformulier.
+- Meetpunten: `svv_bot_question`, `svv_bot_handoff`.
+
+## Snelheid
+Op homepage en pagina's laden de oude Divi-plugins (Bloom, Divi-addons, a3 Lazy Load, CF7, Kraft) niets (`svv_trim_assets()`). Blogberichten houden alles.

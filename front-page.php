@@ -2,31 +2,7 @@
 defined( 'ABSPATH' ) || exit;
 get_header();
 
-$hour     = (int) current_time( 'G' );
-$greeting = $hour < 6 ? 'Goedenacht.' : ( $hour < 12 ? 'Goedemorgen.' : ( $hour < 18 ? 'Goedemiddag.' : 'Goedenavond.' ) );
-
-$faqs = array(
-	array(
-		'q'    => 'Kan ik adverteren in ChatGPT?',
-		'a'    => 'Ja, sinds eind augustus ook in Nederland. Op mijn eigen platforms draaien de eerste campagnes al. Zin in een pilot? Vaste opzet, jouw budget en na een paar weken een eerlijk verslag.',
-		'link' => array( 'Adverteren in ChatGPT', svv_service_url( 'chatgpt-adverteren' ) ),
-	),
-	array(
-		'q'    => 'Google zet mijn campagnes om naar AI Max. Wat nu?',
-		'a'    => 'Google zet dynamische zoekadvertenties en brede instellingen automatisch om naar AI Max. Zonder merkuitsluitingen en goede uitsluitingszoekwoorden betaal je dan vaak meer per aanvraag. Goed inrichten en scherp toezicht houden: daar zit het verschil.',
-		'link' => array( 'Google & Microsoft Ads', svv_service_url( 'sea-specialist-google-ads' ) ),
-	),
-	array(
-		'q'    => 'Werkt TikTok of LinkedIn voor mijn bedrijf?',
-		'a'    => 'Dat hangt af van wie je wilt bereiken. Meta en TikTok voor bereik bij consumenten, LinkedIn voor beslissers in B2B. Samen kijken we waar jouw klant zit en beginnen we klein.',
-		'link' => array( 'Social Ads', svv_service_url( 'social-media-advertising-specialist' ) ),
-	),
-	array(
-		'q'    => 'Word ik gevonden in ChatGPT?',
-		'a'    => 'Dat hangt af van hoe je site in elkaar zit en wat er over je bedrijf online staat. Met SEO en GEO zorg ik dat je gevonden wordt in Google én genoemd in AI-antwoorden.',
-		'link' => array( 'SEO & GEO', svv_service_url( 'seo-specialist-inhuren-op-freelance-basis' ) ),
-	),
-);
+$faqs  = svv_faqs();
 $photo = get_template_directory_uri() . '/assets/img/stijn.jpg';
 ?>
 
@@ -35,11 +11,12 @@ $photo = get_template_directory_uri() . '/assets/img/stijn.jpg';
 		<div class="svv-hero__head">
 			<img class="svv-portrait" src="<?php echo esc_url( $photo ); ?>" alt="Stijn van Veelen" width="140" height="140" fetchpriority="high">
 			<div>
-				<p class="svv-greet"><span class="svv-grad"><?php echo esc_html( $greeting ); ?></span></p>
-				<h1 class="svv-h1">Hoi, Stijn hier. AI zet je advertenties in, ik zorg dat ze iets opleveren.</h1>
+				<p class="svv-greet"><span class="svv-grad" id="svv-greet">Hallo.</span></p>
+				<script>(function(){var h=new Date().getHours(),g=h<6?'Goedenacht.':h<12?'Goedemorgen.':h<18?'Goedemiddag.':'Goedenavond.';document.getElementById('svv-greet').textContent=g;})();</script>
+				<h1 class="svv-h1">Stijn hier. AI zet je advertenties in, ik zorg dat ze iets opleveren.</h1>
 			</div>
 		</div>
-		<p class="svv-intro">Twintig jaar Google Ads. Nu met de AI-laag erbovenop: adverteren in ChatGPT, AI Max in Google en Advantage+ in Meta. Geen chatbot, gewoon ik.</p>
+		<p class="svv-intro">Twintig jaar Google Ads. Nu met de AI-laag erbovenop: adverteren in ChatGPT, AI Max in Google en Advantage+ in Meta. AI mag fantaseren, je ROAS niet.</p>
 
 		<div class="svv-chat" aria-live="polite">
 			<?php foreach ( $faqs as $i => $f ) : ?>
@@ -60,12 +37,18 @@ $photo = get_template_directory_uri() . '/assets/img/stijn.jpg';
 			<?php echo svv_form( 'aanvraag', array( 'chat' => true ) ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
 		</div>
 
+		<div class="svv-actions" hidden>
+			<a class="svv-chip" href="#bakkie">Bakkie doen?</a>
+			<button type="button" class="svv-chip" data-handoff>Laat Stijn zelf reageren</button>
+		</div>
+
 		<div class="svv-chips">
 			<?php foreach ( $faqs as $i => $f ) : ?>
 				<button type="button" class="svv-chip" data-ask="<?php echo (int) $i; ?>"><?php echo esc_html( $f['q'] ); ?></button>
 			<?php endforeach; ?>
 		</div>
-		<p class="svv-disclaimer">Stijn kan fouten maken. Daarom test hij alles eerst met eigen budget.</p>
+		<p class="svv-disclaimer"><?php echo svv_bot_enabled() ? 'Antwoorden komen van een AI-assistent en kunnen fouten bevatten. Twijfel? Stijn reageert zelf binnen een werkdag.' : 'Stijn reageert zelf, binnen een werkdag.'; ?></p>
+		<template id="svv-bot-avatar"><?php echo svv_logo( 30, '#1F252B' ); // phpcs:ignore WordPress.Security.EscapeOutput ?></template>
 	</div>
 </section>
 
@@ -77,7 +60,7 @@ $photo = get_template_directory_uri() . '/assets/img/stijn.jpg';
 		<div class="svv-prose">
 			<h2 class="svv-h2">Geen AI-goeroe. Een adverteerder met twintig jaar ervaring.</h2>
 			<p>Adverteren doe ik al sinds Google Ads nog AdWords heette: bij bureaus, bij Sneleentaxi en als marketingmanager en MT-lid bij Dialog (Visma). Butlaroo vond me via mijn eigen advertentie en is nu ruim twee jaar klant.</p>
-			<p class="svv-soft">Onder New Road Digital bouw en vermarkt ik eigen platforms, zoals Autobaak en Therapievergelijk. Elk nieuw AI-advertentiekanaal gaat daar eerst langs, met eigen geld, voordat een klant het aangeraden krijgt.</p>
+			<p class="svv-soft">Onder New Road Digital bouw en vermarkt ik eigen platforms: <?php echo svv_platform_links(); // phpcs:ignore WordPress.Security.EscapeOutput ?>. Elk nieuw AI-advertentiekanaal gaat daar eerst langs, voordat een klant het aangeraden krijgt.</p>
 		</div>
 	</div>
 </section>
