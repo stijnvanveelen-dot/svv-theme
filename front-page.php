@@ -8,18 +8,18 @@ $greeting = $hour < 6 ? 'Goedenacht.' : ( $hour < 12 ? 'Goedemorgen.' : ( $hour 
 $faqs = array(
 	array(
 		'q'    => 'Kan ik adverteren in ChatGPT?',
-		'a'    => 'Ja, sinds eind augustus ook in Nederland. Ik heb toegang en test deze maand op mijn eigen platforms. Wil je mee in een pilot? Vaste opzet, jouw budget, en na ' . svv_opt( 'svv_weeks_pilot', '[x]' ) . ' weken een eerlijk verslag.',
+		'a'    => 'Ja, sinds eind augustus ook in Nederland. Op mijn eigen platforms draaien de eerste campagnes al. Zin in een pilot? Vaste opzet, jouw budget en na een paar weken een eerlijk verslag.',
 		'link' => array( 'Adverteren in ChatGPT', svv_service_url( 'chatgpt-adverteren' ) ),
 	),
 	array(
 		'q'    => 'Google zet mijn campagnes om naar AI Max. Wat nu?',
-		'a'    => 'Google zet dynamische zoekadvertenties en brede instellingen automatisch om naar AI Max. Zonder merkuitsluitingen en goede uitsluitingszoekwoorden betaal je dan vaak meer per aanvraag. Ik richt het in en houd toezicht.',
-		'link' => array( 'Google Ads & AI Max', svv_service_url( 'sea-specialist-google-ads' ) ),
+		'a'    => 'Google zet dynamische zoekadvertenties en brede instellingen automatisch om naar AI Max. Zonder merkuitsluitingen en goede uitsluitingszoekwoorden betaal je dan vaak meer per aanvraag. Goed inrichten en scherp toezicht houden: daar zit het verschil.',
+		'link' => array( 'Google & Microsoft Ads', svv_service_url( 'sea-specialist-google-ads' ) ),
 	),
 	array(
-		'q'    => 'Kloppen mijn cijfers in GA4 eigenlijk wel?',
-		'a'    => 'Vaak niet helemaal. Dubbel geteld verkeer, betalingen die als eigen bron tellen of bezoekers zonder toestemming vertekenen het beeld. De Meetscan laat zien waar je verkeer echt vandaan komt en welke conversies kloppen.',
-		'link' => array( 'Meetscan', home_url( '/#modellen' ) ),
+		'q'    => 'Werkt TikTok of LinkedIn voor mijn bedrijf?',
+		'a'    => 'Dat hangt af van wie je wilt bereiken. Meta en TikTok voor bereik bij consumenten, LinkedIn voor beslissers in B2B. Samen kijken we waar jouw klant zit en beginnen we klein.',
+		'link' => array( 'Social Ads', svv_service_url( 'social-media-advertising-specialist' ) ),
 	),
 	array(
 		'q'    => 'Word ik gevonden in ChatGPT?',
@@ -36,7 +36,7 @@ $photo = get_template_directory_uri() . '/assets/img/stijn.jpg';
 			<img class="svv-portrait" src="<?php echo esc_url( $photo ); ?>" alt="Stijn van Veelen" width="140" height="140" fetchpriority="high">
 			<div>
 				<p class="svv-greet"><span class="svv-grad"><?php echo esc_html( $greeting ); ?></span></p>
-				<h1 class="svv-h1">Ik ben Stijn. AI zet je advertenties in, ik zorg dat ze iets opleveren.</h1>
+				<h1 class="svv-h1">Hoi, Stijn hier. AI zet je advertenties in, ik zorg dat ze iets opleveren.</h1>
 			</div>
 		</div>
 		<p class="svv-intro">Twintig jaar Google Ads. Nu met de AI-laag erbovenop: adverteren in ChatGPT, AI Max in Google en Advantage+ in Meta. Geen chatbot, gewoon ik.</p>
@@ -69,15 +69,15 @@ $photo = get_template_directory_uri() . '/assets/img/stijn.jpg';
 	</div>
 </section>
 
-<?php get_template_part( 'template-parts/modellen' ); ?>
+<?php get_template_part( 'template-parts/bakkie' ); ?>
 <?php get_template_part( 'template-parts/nieuwsbrief' ); ?>
 
 <section class="svv-section svv-section--line" id="over">
 	<div class="svv-wrap">
 		<div class="svv-prose">
 			<h2 class="svv-h2">Geen AI-goeroe. Een adverteerder met twintig jaar ervaring.</h2>
-			<p>Ik adverteer al sinds Google Ads nog AdWords heette: bij bureaus, bij Sneleentaxi en als marketingmanager en MT-lid bij Dialog (Visma). Butlaroo vond me via mijn eigen advertentie en is nu ruim twee jaar klant.</p>
-			<p class="svv-soft">Onder New Road Digital bouw en vermarkt ik mijn eigen platforms, zoals Autobaak en Therapievergelijk. Daar test ik elk nieuw AI-advertentiekanaal eerst met mijn eigen geld, voordat ik het een klant aanraad.</p>
+			<p>Adverteren doe ik al sinds Google Ads nog AdWords heette: bij bureaus, bij Sneleentaxi en als marketingmanager en MT-lid bij Dialog (Visma). Butlaroo vond me via mijn eigen advertentie en is nu ruim twee jaar klant.</p>
+			<p class="svv-soft">Onder New Road Digital bouw en vermarkt ik eigen platforms, zoals Autobaak en Therapievergelijk. Elk nieuw AI-advertentiekanaal gaat daar eerst langs, met eigen geld, voordat een klant het aangeraden krijgt.</p>
 		</div>
 	</div>
 </section>

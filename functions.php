@@ -5,7 +5,8 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'SVV_VERSION', '0.1.0' );
+define( 'SVV_VERSION', '0.2.0' );
+define( 'SVV_TAGLINE', 'Freelance AI Ads specialist' );
 
 /**
  * Diensten in het menu. Slugs van bestaande pagina's behouden (zoekwaarde).
@@ -13,12 +14,10 @@ define( 'SVV_VERSION', '0.1.0' );
  */
 function svv_services() {
 	return array(
-		'chatgpt-adverteren'                       => 'Adverteren in ChatGPT',
-		'sea-specialist-google-ads'                => 'Google Ads & AI Max',
-		'meta-ads'                                 => 'Meta Ads',
-		'microsoft-ads'                            => 'Microsoft Ads',
+		'chatgpt-adverteren'                        => 'Adverteren in ChatGPT',
+		'sea-specialist-google-ads'                 => 'Google & Microsoft Ads',
+		'social-media-advertising-specialist'       => 'Social Ads',
 		'seo-specialist-inhuren-op-freelance-basis' => 'SEO & GEO',
-		'email-marketing'                          => 'E-mailmarketing',
 	);
 }
 
@@ -49,6 +48,27 @@ add_action( 'wp_head', function () {
 	echo '<link rel="apple-touch-icon" href="' . esc_url( $uri . '/assets/img/favicon-192.png' ) . '">' . "\n";
 	echo '<meta name="theme-color" content="#1F252B">' . "\n";
 }, 1 );
+
+// Oude WordPress-sitepictogrammen (2018) niet meer tonen: het thema levert de favicons.
+remove_action( 'wp_head', 'wp_site_icon', 99 );
+add_filter( 'get_site_icon_url', '__return_empty_string' );
+
+// Titel en beschrijving van de homepage (Yoast gebruikt anders de oude paginatitel).
+function svv_home_title() {
+	return 'Stijn van Veelen – ' . SVV_TAGLINE;
+}
+add_filter( 'pre_get_document_title', function ( $title ) {
+	return is_front_page() ? svv_home_title() : $title;
+}, 20 );
+add_filter( 'wpseo_title', function ( $title ) {
+	return is_front_page() ? svv_home_title() : $title;
+} );
+add_filter( 'wpseo_opengraph_title', function ( $title ) {
+	return is_front_page() ? svv_home_title() : $title;
+} );
+add_filter( 'wpseo_metadesc', function ( $desc ) {
+	return is_front_page() ? 'Adverteren in ChatGPT, Google Ads met AI Max, Microsoft Ads en social ads. Twintig jaar ervaring, elk nieuw kanaal eerst getest met eigen budget.' : $desc;
+} );
 
 // Rommel uit de head.
 remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
@@ -95,11 +115,7 @@ add_action( 'customize_register', function ( $wp_customize ) {
 	$wp_customize->add_section( 'svv', array( 'title' => 'Stijn van Veelen' ) );
 	$fields = array(
 		'svv_available'     => array( 'Beschikbaar vanaf', 'direct' ),
-		'svv_price_scan'    => array( 'Prijs Meetscan', '[prijs]' ),
-		'svv_price_pilot'   => array( 'Prijs ChatGPT Ads-pilot', '[prijs]' ),
-		'svv_price_beheer'  => array( 'Beheer vanaf (p/m)', '[prijs]' ),
-		'svv_days_scan'     => array( 'Levertijd Meetscan (werkdagen)', '[x]' ),
-		'svv_weeks_pilot'   => array( 'Duur pilot (weken)', '[x]' ),
+		'svv_calendar'      => array( 'Agendalink voor een bakkie (optioneel)', '' ),
 		'svv_kvk'           => array( 'KvK-nummer', '[nummer]' ),
 		'svv_linkedin'      => array( 'LinkedIn-URL', 'https://www.linkedin.com/in/stijn-van-veelen' ),
 	);

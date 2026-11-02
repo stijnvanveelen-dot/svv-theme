@@ -23,14 +23,7 @@ while ( have_posts() ) :
 	</article>
 
 	<?php if ( $is_service ) : ?>
-		<section class="svv-section" id="vraag">
-			<div class="svv-narrow">
-				<h2 class="svv-h2">Even sparren?</h2>
-				<p class="svv-soft">Twee zinnen over wat er speelt is genoeg. Je hoort binnen een werkdag van me.</p>
-				<?php echo svv_form( 'aanvraag', array( 'chat' => true, 'placeholder' => 'Waar loop je tegenaan met ' . svv_services()[ $slug ] . '?' ) ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
-			</div>
-		</section>
-		<?php get_template_part( 'template-parts/modellen' ); ?>
+		<?php get_template_part( 'template-parts/bakkie', null, array( 'topic' => svv_services()[ $slug ] ) ); ?>
 		<?php get_template_part( 'template-parts/nieuwsbrief' ); ?>
 	<?php endif; ?>
 	<?php

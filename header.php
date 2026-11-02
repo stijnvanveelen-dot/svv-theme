@@ -12,9 +12,9 @@
 
 <aside class="svv-side" id="menu">
 	<div class="svv-side__top">
-		<a class="svv-brand" href="<?php echo esc_url( home_url( '/' ) ); ?>" aria-label="Stijn van Veelen, AI Ads-specialist — naar de homepage">
+		<a class="svv-brand" href="<?php echo esc_url( home_url( '/' ) ); ?>" aria-label="Stijn van Veelen, <?php echo esc_attr( SVV_TAGLINE ); ?> — naar de homepage">
 			<?php echo svv_logo( 36 ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
-			<span><strong>Stijn van Veelen</strong><small>AI Ads-specialist</small></span>
+			<span><strong>Stijn van Veelen</strong><small><?php echo esc_html( SVV_TAGLINE ); ?></small></span>
 		</a>
 		<button class="svv-menu-toggle" type="button" aria-expanded="false" aria-controls="svv-nav">
 			<span class="svv-sr">Menu</span>
@@ -22,7 +22,7 @@
 		</button>
 	</div>
 	<div class="svv-side__body" id="svv-nav">
-		<a class="svv-new" href="<?php echo esc_url( home_url( '/#vraag' ) ); ?>">
+		<a class="svv-new" href="<?php echo esc_url( home_url( '/' ) ); ?>" data-svv-new>
 			<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
 			Nieuw gesprek
 		</a>
@@ -32,9 +32,8 @@
 				<a href="<?php echo esc_url( svv_service_url( $slug ) ); ?>"<?php echo svv_is_current( $slug ) ? ' aria-current="page"' : ''; ?>><?php echo esc_html( $label ); ?></a>
 			<?php endforeach; ?>
 			<p class="svv-nav__label">Meer</p>
-			<a href="<?php echo esc_url( home_url( '/#modellen' ) ); ?>">Meetscan</a>
-			<a href="<?php echo esc_url( home_url( '/#nieuwsbrief' ) ); ?>">Wekelijkse testresultaten</a>
-			<a href="<?php echo esc_url( home_url( '/#over' ) ); ?>">Over Stijn</a>
+			<a class="svv-nav__two" href="<?php echo esc_url( home_url( '/#bakkie' ) ); ?>">Bakkie doen?<small>Zwart, met melk of via Teams</small></a>
+			<a href="<?php echo esc_url( home_url( '/#nieuwsbrief' ) ); ?>">Ads-testlab</a>
 		</nav>
 		<p class="svv-status"><span aria-hidden="true"></span>Beschikbaar vanaf <?php echo esc_html( svv_opt( 'svv_available', 'direct' ) ); ?></p>
 	</div>
@@ -42,7 +41,6 @@
 
 <div class="svv-main">
 	<div class="svv-topbar">
-		<a href="<?php echo esc_url( home_url( '/#modellen' ) ); ?>">Tarieven</a>
-		<a class="svv-btn svv-btn--sm" href="<?php echo esc_url( home_url( '/#vraag' ) ); ?>">Plan 20 minuten</a>
+		<a class="svv-btn svv-btn--sm" href="<?php echo esc_url( home_url( '/#bakkie' ) ); ?>">Bakkie doen?</a>
 	</div>
 	<main id="inhoud">

@@ -2,7 +2,7 @@
 	</main>
 	<footer class="svv-footer">
 		<div class="svv-wrap svv-footer__in">
-			<span>Stijn van Veelen · AI Ads-specialist · KvK <?php echo esc_html( svv_opt( 'svv_kvk', '[nummer]' ) ); ?></span>
+			<span>Stijn van Veelen · <?php echo esc_html( SVV_TAGLINE ); ?> · KvK <?php echo esc_html( svv_opt( 'svv_kvk', '[nummer]' ) ); ?></span>
 			<nav aria-label="Voettekst">
 				<a href="<?php echo esc_url( home_url( '/privacy/' ) ); ?>">Privacy</a>
 				<a href="<?php echo esc_url( home_url( '/cookies/' ) ); ?>">Cookies</a>

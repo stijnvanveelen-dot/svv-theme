@@ -123,6 +123,22 @@ input,textarea,button{font:inherit;color:inherit}
 .svv-list{list-style:none;margin:0;padding:0;border-top:1px solid var(--slate)}
 .svv-list li{display:flex;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid var(--slate)}
 
+/* Bakkie */
+.svv-bakkie{display:flex;flex-wrap:wrap;gap:32px;align-items:flex-start}
+.svv-bakkie__text{flex:1 1 360px;min-width:0}
+.svv-bakkie__text p{margin:0 0 12px}
+.svv-form--bakkie{flex:1 1 360px;display:flex;flex-direction:column;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:22px}
+.svv-form--bakkie .svv-input{width:100%;background:var(--night);border:1px solid var(--line);border-radius:12px;padding:12px 14px;color:var(--text);outline:none;resize:vertical}
+.svv-form--bakkie .svv-input:focus{border-color:var(--g2)}
+.svv-form--bakkie .svv-btn{align-self:flex-start}
+.svv-choice{border:0;margin:0;padding:0;display:flex;gap:8px}
+.svv-choice label{cursor:pointer}
+.svv-choice input{position:absolute;opacity:0}
+.svv-choice label{border:1px solid var(--line);border-radius:999px;padding:8px 14px;font-size:14px;background:var(--night)}
+.svv-choice label:has(input:checked){background:var(--slate);border-color:var(--g2)}
+.svv-choice label:has(input:focus-visible){outline:2px solid var(--g2);outline-offset:2px}
+.svv-nav a.svv-nav__two small{display:block;font-size:12px;color:var(--mist);margin-top:1px}
+
 /* Footer */
 .svv-footer{background:#161A1E;color:var(--mist);border-top:4px solid var(--g2);margin-top:24px}
 .svv-footer__in{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;padding-top:24px;padding-bottom:24px;font-size:14px}

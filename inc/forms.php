@@ -1,6 +1,6 @@
 <?php
 /**
- * Formulieren: contact/aanvraag, Meetscan, nieuwsbrief.
+ * Formulieren: aanvraag (chat), bakkie (kennismaken), nieuwsbrief.
  * Versie 1: mail naar beheerder + opslaan als privé-bericht (type svv_lead).
  * Bigin-koppeling volgt in inc/bigin.php.
  */
@@ -20,18 +20,31 @@ add_action( 'init', function () {
 } );
 
 /**
- * Formulier-HTML. $type: aanvraag | meetscan | nieuwsbrief
+ * Formulier-HTML. $type: aanvraag | bakkie | nieuwsbrief
  */
 function svv_form( $type = 'aanvraag', $args = array() ) {
 	$args = wp_parse_args( $args, array(
 		'button'      => 'Versturen',
 		'placeholder' => 'Vraag Stijn iets over je advertenties…',
 		'chat'        => false,
+		'topic'       => '',
 	) );
 	$sent = isset( $_GET['verzonden'] ) && sanitize_key( wp_unslash( $_GET['verzonden'] ) ) === $type;
 	ob_start();
 	if ( $sent ) {
-		echo '<p class="svv-form__ok" role="status">' . ( 'nieuwsbrief' === $type ? 'Je bent aangemeld. Je eerste mail komt deze week.' : 'Dank je. Je hoort binnen een werkdag van me.' ) . '</p>';
+		if ( 'nieuwsbrief' === $type ) {
+			$ok = 'Je bent aangemeld. Je eerste mail komt deze week.';
+		} elseif ( 'bakkie' === $type ) {
+			$ok = 'Top. Binnen een werkdag krijg je een paar tijden voorgesteld.';
+		} else {
+			$ok = 'Dank je. Je hoort binnen een werkdag van me.';
+		}
+		echo '<p class="svv-form__ok" role="status">' . esc_html( $ok );
+		$cal = svv_opt( 'svv_calendar', '' );
+		if ( 'bakkie' === $type && $cal ) {
+			echo ' <a href="' . esc_url( $cal ) . '" rel="noopener">Of kies zelf een moment in de agenda →</a>';
+		}
+		echo '</p>';
 	}
 	$action = esc_url( admin_url( 'admin-post.php' ) );
 	$uid    = wp_unique_id( 'svvf' );
@@ -46,6 +59,19 @@ function svv_form( $type = 'aanvraag', $args = array() ) {
 			<label class="svv-sr" for="<?php echo esc_attr( $uid ); ?>-mail">Je e-mailadres</label>
 			<input id="<?php echo esc_attr( $uid ); ?>-mail" class="svv-input svv-input--pill" type="email" name="svv_email" required placeholder="je e-mailadres" autocomplete="email">
 			<button class="svv-btn" type="submit"><?php echo esc_html( $args['button'] ); ?></button>
+		<?php elseif ( 'bakkie' === $type ) : ?>
+			<fieldset class="svv-choice">
+				<legend class="svv-sr">Waar drinken we koffie?</legend>
+				<label><input type="radio" name="svv_where" value="digitaal" checked> Digitaal</label>
+				<label><input type="radio" name="svv_where" value="aan tafel"> Aan tafel</label>
+			</fieldset>
+			<label class="svv-sr" for="<?php echo esc_attr( $uid ); ?>-msg">Waar wil je het over hebben?</label>
+			<textarea id="<?php echo esc_attr( $uid ); ?>-msg" class="svv-input" name="svv_message" rows="2" placeholder="<?php echo esc_attr( $args['topic'] ? 'Waar wil je het over hebben? Bijvoorbeeld ' . $args['topic'] . '.' : 'Waar wil je het over hebben? Mag ook kort.' ); ?>"></textarea>
+			<label class="svv-sr" for="<?php echo esc_attr( $uid ); ?>-mail">Je zakelijke e-mailadres</label>
+			<input id="<?php echo esc_attr( $uid ); ?>-mail" class="svv-input" type="email" name="svv_email" required placeholder="je zakelijke e-mailadres" autocomplete="email">
+			<label class="svv-sr" for="<?php echo esc_attr( $uid ); ?>-tel">Telefoonnummer (optioneel)</label>
+			<input id="<?php echo esc_attr( $uid ); ?>-tel" class="svv-input" type="tel" name="svv_phone" placeholder="telefoonnummer (optioneel)" autocomplete="tel">
+			<button class="svv-btn" type="submit">Bakkie plannen</button>
 		<?php else : ?>
 			<label class="svv-sr" for="<?php echo esc_attr( $uid ); ?>-msg">Je vraag</label>
 			<textarea id="<?php echo esc_attr( $uid ); ?>-msg" name="svv_message" rows="2" required placeholder="<?php echo esc_attr( $args['placeholder'] ); ?>"></textarea>
@@ -81,10 +107,16 @@ function svv_handle_lead() {
 	set_transient( $ip_key, $count + 1, HOUR_IN_SECONDS );
 
 	$type    = sanitize_key( wp_unslash( $_POST['svv_type'] ?? 'aanvraag' ) );
-	$type    = in_array( $type, array( 'aanvraag', 'meetscan', 'nieuwsbrief' ), true ) ? $type : 'aanvraag';
+	$type    = in_array( $type, array( 'aanvraag', 'bakkie', 'nieuwsbrief' ), true ) ? $type : 'aanvraag';
 	$email   = sanitize_email( wp_unslash( $_POST['svv_email'] ?? '' ) );
 	$message = sanitize_textarea_field( wp_unslash( $_POST['svv_message'] ?? '' ) );
 	$page    = esc_url_raw( wp_unslash( $_POST['svv_page'] ?? '' ) );
+	$phone   = sanitize_text_field( wp_unslash( $_POST['svv_phone'] ?? '' ) );
+	$where   = sanitize_text_field( wp_unslash( $_POST['svv_where'] ?? '' ) );
+	$where   = in_array( $where, array( 'digitaal', 'aan tafel' ), true ) ? $where : '';
+	if ( 'bakkie' === $type ) {
+		$message = trim( 'Voorkeur: ' . ( $where ?: 'onbekend' ) . ( $phone ? "\nTelefoon: {$phone}" : '' ) . "\n\n" . $message );
+	}
 
 	if ( ! is_email( $email ) ) {
 		wp_safe_redirect( $back );
@@ -100,6 +132,8 @@ function svv_handle_lead() {
 			'svv_type'  => $type,
 			'svv_email' => $email,
 			'svv_page'  => $page,
+			'svv_phone' => $phone,
+			'svv_where' => $where,
 		),
 	) );
 
@@ -110,9 +144,9 @@ function svv_handle_lead() {
 	/**
 	 * Hook voor CRM-koppeling (Bigin).
 	 */
-	do_action( 'svv_lead_created', $lead_id, compact( 'type', 'email', 'message', 'page' ) );
+	do_action( 'svv_lead_created', $lead_id, compact( 'type', 'email', 'message', 'page', 'phone', 'where' ) );
 
-	wp_safe_redirect( add_query_arg( 'verzonden', $type, remove_query_arg( 'verzonden', $back ) ) . '#' . ( 'nieuwsbrief' === $type ? 'nieuwsbrief' : 'vraag' ) );
+	wp_safe_redirect( add_query_arg( 'verzonden', $type, remove_query_arg( 'verzonden', $back ) ) . '#' . ( 'aanvraag' === $type ? 'vraag' : $type ) );
 	exit;
 }
 add_action( 'admin_post_svv_lead', 'svv_handle_lead' );

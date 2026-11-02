@@ -28,6 +28,39 @@
 		});
 	});
 
+	// Nieuw gesprek: werkt als in ChatGPT. Op de homepage het gesprek leegmaken zonder
+	// paginasprong; elders naar de homepage en daar het invoerveld klaarzetten.
+	var isHome = document.body.classList.contains('home');
+	var input = document.querySelector('#vraag textarea');
+	function resetChat() {
+		document.querySelectorAll('.svv-turn').forEach(function (t) { t.hidden = true; });
+		document.querySelectorAll('.svv-chip[data-ask]').forEach(function (c) { c.hidden = false; });
+		document.querySelectorAll('#vraag .svv-form__ok').forEach(function (el) { el.remove(); });
+		if (input) { input.value = ''; }
+		if (/[?&]verzonden=/.test(location.search) || location.hash) {
+			history.replaceState(null, '', location.pathname);
+		}
+		if (side) { side.classList.remove('is-open'); }
+		if (toggle) { toggle.setAttribute('aria-expanded', 'false'); }
+		window.scrollTo({ top: 0, behavior: 'smooth' });
+		if (input) { input.focus({ preventScroll: true }); }
+	}
+	document.querySelectorAll('[data-svv-new]').forEach(function (link) {
+		link.addEventListener('click', function (e) {
+			if (isHome) {
+				e.preventDefault();
+				resetChat();
+			} else {
+				try { sessionStorage.setItem('svv_new', '1'); } catch (err) {}
+			}
+		});
+	});
+	if (isHome && input) {
+		var fresh = false;
+		try { fresh = sessionStorage.getItem('svv_new') === '1'; sessionStorage.removeItem('svv_new'); } catch (err) {}
+		if (fresh) { input.focus({ preventScroll: true }); }
+	}
+
 	// Meetpunt: formulier verzonden (vóór redirect)
 	document.querySelectorAll('.svv-form').forEach(function (form) {
 		form.addEventListener('submit', function () {
