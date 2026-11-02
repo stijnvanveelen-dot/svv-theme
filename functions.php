@@ -169,9 +169,6 @@ function svv_platforms() {
 	return array(
 		'Autobaak'          => 'https://www.autobaak.nl/',
 		'Therapievergelijk' => 'https://www.therapievergelijk.nl/',
-		'KeuringsNetwerk'   => 'https://www.keuringsnetwerk.nl/',
-		'BouwkundeCheck'    => 'https://www.bouwkundecheck.nl/',
-		'BeroepsRijbewijs'  => 'https://www.beroepsrijbewijs.nl/',
 	);
 }
 

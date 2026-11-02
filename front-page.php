@@ -60,7 +60,7 @@ $photo = get_template_directory_uri() . '/assets/img/stijn.jpg';
 		<div class="svv-prose">
 			<h2 class="svv-h2">Geen AI-goeroe. Een adverteerder met twintig jaar ervaring.</h2>
 			<p>Adverteren doe ik al sinds Google Ads nog AdWords heette: bij bureaus, bij Sneleentaxi en als marketingmanager en MT-lid bij Dialog (Visma). Butlaroo vond me via mijn eigen advertentie en is nu ruim twee jaar klant.</p>
-			<p class="svv-soft">Onder New Road Digital bouw en vermarkt ik eigen platforms: <?php echo svv_platform_links(); // phpcs:ignore WordPress.Security.EscapeOutput ?>. Elk nieuw AI-advertentiekanaal gaat daar eerst langs, voordat een klant het aangeraden krijgt.</p>
+			<p class="svv-soft">Onder New Road Digital bouw en vermarkt ik eigen platforms, zoals <?php echo svv_platform_links(); // phpcs:ignore WordPress.Security.EscapeOutput ?>. Elk nieuw AI-advertentiekanaal gaat daar eerst langs, voordat een klant het aangeraden krijgt.</p>
 		</div>
 	</div>
 </section>
