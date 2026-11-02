@@ -54,7 +54,7 @@ function svv_form( $type = 'aanvraag', $args = array() ) {
 		<input type="hidden" name="svv_type" value="<?php echo esc_attr( $type ); ?>">
 		<input type="hidden" name="svv_transcript" value="">
 		<input type="hidden" name="svv_page" value="<?php echo esc_url( get_permalink() ?: home_url( '/' ) ); ?>">
-		<?php wp_nonce_field( 'svv_lead', 'svv_nonce' ); ?>
+		<input type="hidden" name="svv_t" value="">
 		<div class="svv-hp" aria-hidden="true"><label>Laat leeg<input type="text" name="svv_website" tabindex="-1" autocomplete="off"></label></div>
 		<?php if ( 'nieuwsbrief' === $type ) : ?>
 			<label class="svv-sr" for="<?php echo esc_attr( $uid ); ?>-mail">Je e-mailadres</label>
@@ -87,14 +87,34 @@ function svv_form( $type = 'aanvraag', $args = array() ) {
 	return ob_get_clean();
 }
 
+/**
+ * Tellen hoeveel spam er is tegengehouden (zichtbaar onder Instellingen → AI-assistent).
+ */
+function svv_spam_count( $reason ) {
+	$c = get_option( 'svv_spam', array() );
+	$c = is_array( $c ) ? $c : array();
+	$c[ $reason ] = (int) ( $c[ $reason ] ?? 0 ) + 1;
+	update_option( 'svv_spam', $c, false );
+}
+
 function svv_handle_lead() {
 	$back = wp_get_referer() ?: home_url( '/' );
-	if ( ! isset( $_POST['svv_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['svv_nonce'] ) ), 'svv_lead' ) ) {
+	/*
+	 * Spamfilter. Geen WordPress-nonce: die verloopt binnen een dag, terwijl de cache
+	 * pagina's een week bewaart (formulieren zouden dan stil weigeren). In plaats daarvan:
+	 * 1. JavaScript vult svv_t met de tijd op de pagina (bots zonder JS vallen af);
+	 * 2. minimaal 3 seconden op de pagina (te snel = bot);
+	 * 3. honeypot-veld; 4. max. 5 berichten per uur per IP; 5. max. 2 links in het bericht.
+	 */
+	$t = sanitize_text_field( wp_unslash( $_POST['svv_t'] ?? '' ) );
+	if ( ! preg_match( '/^js-(\d+)$/', $t, $m ) || (int) $m[1] < 3000 ) {
+		svv_spam_count( 'tijd' );
 		wp_safe_redirect( $back );
 		exit;
 	}
 	// Honeypot: bots vullen dit in.
 	if ( ! empty( $_POST['svv_website'] ) ) {
+		svv_spam_count( 'honeypot' );
 		wp_safe_redirect( $back );
 		exit;
 	}
@@ -124,6 +144,11 @@ function svv_handle_lead() {
 	}
 
 	if ( ! is_email( $email ) ) {
+		wp_safe_redirect( $back );
+		exit;
+	}
+	if ( preg_match_all( '#https?://|www\.#i', (string) wp_unslash( $_POST['svv_message'] ?? '' ) ) > 2 ) {
+		svv_spam_count( 'links' );
 		wp_safe_redirect( $back );
 		exit;
 	}

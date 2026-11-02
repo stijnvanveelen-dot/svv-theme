@@ -52,11 +52,11 @@ add_action( 'wp_footer', function () {
 <div id="svv-cc" class="svv-cc" role="dialog" aria-modal="false" aria-labelledby="svv-cc-t" hidden>
 	<div class="svv-cc__box">
 		<p class="svv-cc__title" id="svv-cc-t">Cookies, mag dat?</p>
-		<p class="svv-cc__text">Met je toestemming meet deze site het gebruik (Google Analytics) en de resultaten van advertenties (Google Ads, Meta en LinkedIn). Noodzakelijke cookies staan altijd aan.<?php echo $cookie_url ? ' <a href="' . esc_url( $cookie_url ) . '">Meer informatie</a>' : ''; ?></p>
+		<p class="svv-cc__text">Met je toestemming meet deze site het gebruik (Google Analytics) en de resultaten van advertenties (Google Ads en Meta). Noodzakelijke cookies staan altijd aan.<?php echo $cookie_url ? ' <a href="' . esc_url( $cookie_url ) . '">Meer informatie</a>' : ''; ?></p>
 		<div class="svv-cc__prefs" id="svv-cc-prefs" hidden>
 			<label><input type="checkbox" checked disabled> Noodzakelijk <span>altijd aan</span></label>
 			<label><input type="checkbox" id="svv-cc-a"> Statistieken <span>Google Analytics</span></label>
-			<label><input type="checkbox" id="svv-cc-m"> Marketing <span>Google Ads, Meta, LinkedIn</span></label>
+			<label><input type="checkbox" id="svv-cc-m"> Marketing <span>Google Ads, Meta</span></label>
 		</div>
 		<div class="svv-cc__btns">
 			<button type="button" class="svv-cc__btn svv-cc__btn--yes" data-cc="all">Accepteren</button>

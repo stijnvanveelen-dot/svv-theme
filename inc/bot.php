@@ -332,6 +332,8 @@ function svv_bot_admin_page() {
 		</form>
 		<h2>Gebruik</h2>
 		<p>Vandaag: <?php echo (int) ( ( $day['date'] ?? '' ) === current_time( 'Y-m-d' ) ? $day['n'] : 0 ); ?> vragen.<?php echo $err ? ' Laatste fout: ' . esc_html( $err ) : ''; ?></p>
+		<?php $spam = (array) get_option( 'svv_spam', array() ); ?>
+		<p>Spam tegengehouden in formulieren: <?php echo (int) array_sum( $spam ); ?><?php echo $spam ? ' (' . esc_html( implode( ', ', array_map( function ( $k, $v ) { return $k . ' ' . (int) $v; }, array_keys( $spam ), $spam ) ) ) . ')' : ''; ?>.</p>
 		<h2>Laatste vragen</h2>
 		<?php if ( ! $log ) : ?>
 			<p>Nog geen vragen.</p>

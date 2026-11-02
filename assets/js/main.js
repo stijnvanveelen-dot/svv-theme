@@ -201,6 +201,15 @@
 		if (fresh) { input.focus({ preventScroll: true }); }
 	}
 
+	// Spamfilter: tijd op de pagina meesturen (zie inc/forms.php)
+	var loadedAt = Date.now();
+	document.querySelectorAll('.svv-form').forEach(function (f) {
+		f.addEventListener('submit', function () {
+			var t = f.querySelector('[name="svv_t"]');
+			if (t) { t.value = 'js-' + (Date.now() - loadedAt); }
+		}, true);
+	});
+
 	// Meetpunt: formulier verzonden (vóór redirect)
 	document.querySelectorAll('.svv-form').forEach(function (f) {
 		f.addEventListener('submit', function (e) {
