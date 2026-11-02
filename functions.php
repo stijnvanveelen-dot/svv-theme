@@ -237,3 +237,7 @@ function svv_opt( $key, $fallback = '' ) {
 
 require get_template_directory() . '/inc/forms.php';
 require get_template_directory() . '/inc/bot.php';
+// Eigen cookiemelding; niet dubbel naast Real Cookie Banner.
+if ( ! array_intersect( array( 'real-cookie-banner-pro/index.php', 'real-cookie-banner/index.php' ), (array) get_option( 'active_plugins', array() ) ) ) {
+	require get_template_directory() . '/inc/consent.php';
+}

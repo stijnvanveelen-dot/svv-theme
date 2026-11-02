@@ -6,6 +6,7 @@
 			<nav aria-label="Voettekst">
 				<a href="<?php echo esc_url( home_url( '/privacy/' ) ); ?>">Privacy</a>
 				<a href="<?php echo esc_url( home_url( '/cookies/' ) ); ?>">Cookies</a>
+				<a href="#" data-svv-consent-open>Cookie-instellingen</a>
 				<a href="<?php echo esc_url( svv_opt( 'svv_linkedin', 'https://www.linkedin.com/in/stijn-van-veelen' ) ); ?>" rel="noopener">LinkedIn</a>
 				<a href="<?php echo esc_url( home_url( '/blog/' ) ); ?>">Blog</a>
 			</nav>
