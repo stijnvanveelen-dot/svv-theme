@@ -39,12 +39,16 @@ function svv_form( $type = 'aanvraag', $args = array() ) {
 		} else {
 			$ok = 'Dank je. Je hoort binnen een werkdag van me.';
 		}
+		$ok = apply_filters( 'svv_form_ok_text', $ok, $type );
 		echo '<p class="svv-form__ok" role="status">' . esc_html( $ok );
 		$cal = svv_opt( 'svv_calendar', '' );
 		if ( 'bakkie' === $type && $cal ) {
 			echo ' <a href="' . esc_url( $cal ) . '" rel="noopener">Of kies zelf een moment in de agenda →</a>';
 		}
 		echo '</p>';
+	}
+	if ( 'nieuwsbrief' === $type && isset( $_GET['aangemeld'] ) && 'bevestigd' === sanitize_key( wp_unslash( $_GET['aangemeld'] ) ) ) {
+		echo '<p class="svv-form__ok" role="status">' . esc_html( 'Bevestigd. Je staat op de lijst van het Ads-testlab.' ) . '</p>';
 	}
 	$action = esc_url( admin_url( 'admin-post.php' ) );
 	$uid    = wp_unique_id( 'svvf' );
