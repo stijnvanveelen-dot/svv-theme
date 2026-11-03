@@ -218,4 +218,27 @@
 			push({ event: 'svv_lead_submit', svv_type: type });
 		});
 	});
+
+	// Meetpunt: aanvraag echt binnen (na de spamcheck). Eén keer per lead, ook bij herladen.
+	// svv_lead → GTM: OpenAI lead_created / registration_completed, GA4 generate_lead, Google Ads.
+	try {
+		var qs = new URLSearchParams(location.search);
+		var sentType = qs.get('verzonden');
+		var lid = qs.get('lid');
+		if (sentType && lid && /^\d+$/.test(lid)) {
+			var seenKey = 'svv_lead_' + lid;
+			var seen = false;
+			try { seen = !!localStorage.getItem(seenKey); localStorage.setItem(seenKey, '1'); } catch (e) {}
+			if (!seen) {
+				push({ event: 'svv_lead', svv_type: sentType, svv_lead_id: 'svv-' + lid });
+				var c = window.svvConsent && window.svvConsent.get ? window.svvConsent.get() : null;
+				if (c && c.a && !c.m && typeof window.gtag === 'function') {
+					window.gtag('event', sentType === 'nieuwsbrief' ? 'sign_up' : 'generate_lead', { lead_type: sentType });
+				}
+			}
+			qs.delete('lid');
+			var rest = qs.toString();
+			history.replaceState(null, '', location.pathname + (rest ? '?' + rest : '') + location.hash);
+		}
+	} catch (e) {}
 })();

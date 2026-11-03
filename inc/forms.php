@@ -180,7 +180,7 @@ function svv_handle_lead() {
 	 */
 	do_action( 'svv_lead_created', $lead_id, compact( 'type', 'email', 'message', 'page', 'phone', 'where' ) );
 
-	wp_safe_redirect( add_query_arg( 'verzonden', $type, remove_query_arg( 'verzonden', $back ) ) . '#' . ( 'aanvraag' === $type ? 'vraag' : $type ) );
+	wp_safe_redirect( add_query_arg( array( 'verzonden' => $type, 'lid' => (int) $lead_id ), remove_query_arg( array( 'verzonden', 'lid' ), $back ) ) . '#' . ( 'aanvraag' === $type ? 'vraag' : $type ) );
 	exit;
 }
 add_action( 'admin_post_svv_lead', 'svv_handle_lead' );
