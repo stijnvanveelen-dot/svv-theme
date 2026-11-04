@@ -13,7 +13,7 @@ $photo = get_template_directory_uri() . '/assets/img/stijn.jpg';
 			<div>
 				<p class="svv-greet"><span class="svv-grad" id="svv-greet">Hallo.</span></p>
 				<script>(function(){var h=new Date().getHours(),g=h<6?'Goedenacht.':h<12?'Goedemorgen.':h<18?'Goedemiddag.':'Goedenavond.';document.getElementById('svv-greet').textContent=g;})();</script>
-				<h1 class="svv-h1">Stijn hier. AI zet je advertenties in, ik zorg dat ze iets opleveren.</h1>
+				<h1 class="svv-h1">Stijn hier. AI stuurt je advertenties, ik zorg dat ze converteren.</h1>
 			</div>
 		</div>
 		<p class="svv-intro">Twintig jaar Google Ads. Nu met de AI-laag erbovenop: adverteren in ChatGPT, AI Max in Google en Advantage+ in Meta. AI mag fantaseren, je ROAS niet.</p>
