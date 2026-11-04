@@ -238,7 +238,7 @@
 			}
 			qs.delete('lid');
 			var rest = qs.toString();
-			history.replaceState(null, '', location.pathname + (rest ? '?' + rest : '') + location.hash);
+			window.history.replaceState(null, '', location.pathname + (rest ? '?' + rest : '') + location.hash);
 		}
 	} catch (e) {}
 })();
