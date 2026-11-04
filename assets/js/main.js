@@ -106,6 +106,19 @@
 			return (m.role === 'user' ? 'Bezoeker: ' : 'Assistent: ') + m.content;
 		}).join('\n\n');
 	}
+	// Sessietoken voor de chat (botbescherming). Ophalen na het laden, vernieuwen na 50 minuten.
+	var tok = null, tokAt = 0, tokP = null;
+	function getToken() {
+		if (tok && Date.now() - tokAt < 50 * 60 * 1000) { return Promise.resolve(tok); }
+		if (tokP) { return tokP; }
+		tokP = fetch(cfg.tok, { credentials: 'omit', cache: 'no-store' })
+			.then(function (r) { return r.ok ? r.json() : null; })
+			.then(function (j) { tok = j && j.token ? j.token : null; tokAt = Date.now(); tokP = null; return tok; })
+			.catch(function () { tokP = null; return null; });
+		return tokP;
+	}
+	if (bot && cfg.tok) { getToken(); }
+
 	function ask(question) {
 		busy = true;
 		form.classList.add('is-busy');
@@ -113,11 +126,16 @@
 		var msgs = history.concat([{ role: 'user', content: question }]);
 		history.push({ role: 'user', content: question });
 		push({ event: 'svv_bot_question' });
-		fetch(cfg.url, {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			credentials: 'omit',
-			body: JSON.stringify({ messages: msgs })
+		getToken().then(function (t) {
+			var wait = Math.max(0, 2100 - (Date.now() - tokAt));
+			return new Promise(function (ok) { setTimeout(ok, wait); }).then(function () {
+				return fetch(cfg.url, {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json', 'X-SVV-Token': t || '' },
+					credentials: 'omit',
+					body: JSON.stringify({ messages: msgs })
+				});
+			});
 		}).then(function (r) {
 			return r.json().then(function (j) { return { ok: r.ok, status: r.status, j: j }; });
 		}).then(function (res) {

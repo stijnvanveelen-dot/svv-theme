@@ -51,6 +51,7 @@ add_action( 'wp_enqueue_scripts', function () {
 	wp_add_inline_script( 'svv', 'window.svvBot=' . wp_json_encode( array(
 		'on'   => svv_bot_enabled(),
 		'url'  => esc_url_raw( rest_url( 'svv/v1/chat' ) ),
+		'tok'  => esc_url_raw( rest_url( 'svv/v1/token' ) ),
 		'home' => home_url( '/' ),
 	) ) . ';', 'before' );
 }, 30 );
@@ -187,11 +188,89 @@ add_action( 'rest_api_init', function () {
 		'callback'            => 'svv_bot_rest',
 		'permission_callback' => '__return_true',
 	) );
+	register_rest_route( 'svv/v1', '/token', array(
+		'methods'             => 'GET',
+		'callback'            => 'svv_bot_token_rest',
+		'permission_callback' => '__return_true',
+	) );
 } );
+
+/*
+ * Botbescherming chat (geen captcha):
+ * 1. de pagina haalt na het laden een ondertekend token op (1 uur geldig);
+ * 2. de eerste vraag telt pas als het token minstens 2 seconden oud is;
+ * 3. alleen verzoeken vanaf deze site (Origin/Referer) en geen bekende bots of scripts.
+ * Geweigerde verzoeken worden geteld (Instellingen → AI-assistent).
+ */
+function svv_is_bot_ua() {
+	$ua = strtolower( (string) ( $_SERVER['HTTP_USER_AGENT'] ?? '' ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput
+	return '' === $ua || (bool) preg_match( '/bot|crawl|spider|slurp|preview|fetch|monitor|headless|phantom|selenium|puppeteer|playwright|lighthouse|python|curl|wget|httpclient|okhttp|axios|node-fetch|go-http|java\/|libwww|scrapy|postman|insomnia|facebookexternalhit|whatsapp|telegram|slack|discord/', $ua );
+}
+
+function svv_bot_sign( $ts ) {
+	return hash_hmac( 'sha256', 'svv-chat|' . (int) $ts, wp_salt( 'auth' ) );
+}
+
+function svv_bot_block( $reason ) {
+	$c = get_option( 'svv_bot_blocked', array() );
+	$c = is_array( $c ) ? $c : array();
+	$c[ $reason ] = (int) ( $c[ $reason ] ?? 0 ) + 1;
+	update_option( 'svv_bot_blocked', $c, false );
+	return new WP_Error( 'svv_bot_denied', 'Niet toegestaan.', array( 'status' => 403 ) );
+}
+
+function svv_bot_same_site() {
+	$home = wp_parse_url( home_url(), PHP_URL_HOST );
+	foreach ( array( 'HTTP_ORIGIN', 'HTTP_REFERER' ) as $h ) {
+		if ( ! empty( $_SERVER[ $h ] ) ) {
+			$host = wp_parse_url( (string) $_SERVER[ $h ], PHP_URL_HOST ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput
+			return $host && strtolower( $host ) === strtolower( (string) $home );
+		}
+	}
+	return false;
+}
+
+function svv_bot_token_rest() {
+	do_action( 'litespeed_control_set_nocache', 'svv chat token' ); // LiteSpeed cachet REST-antwoorden anders.
+	nocache_headers();
+	if ( svv_is_bot_ua() ) {
+		return svv_bot_block( 'bot' );
+	}
+	$ts  = time();
+	$res = rest_ensure_response( array( 'token' => $ts . '.' . svv_bot_sign( $ts ) ) );
+	$res->header( 'Cache-Control', 'no-store, private' );
+	return $res;
+}
+
+/** Controle vóór elke vraag. true of WP_Error. */
+function svv_bot_guard( WP_REST_Request $req ) {
+	if ( svv_is_bot_ua() ) {
+		return svv_bot_block( 'bot' );
+	}
+	if ( ! svv_bot_same_site() ) {
+		return svv_bot_block( 'herkomst' );
+	}
+	$tok = (string) $req->get_header( 'x_svv_token' );
+	if ( ! preg_match( '/^(\d{10})\.([a-f0-9]{64})$/', $tok, $m ) || ! hash_equals( svv_bot_sign( (int) $m[1] ), $m[2] ) ) {
+		return svv_bot_block( 'token' );
+	}
+	$age = time() - (int) $m[1];
+	if ( $age > HOUR_IN_SECONDS ) {
+		return svv_bot_block( 'verlopen' );
+	}
+	if ( $age < 2 ) {
+		return svv_bot_block( 'te snel' );
+	}
+	return true;
+}
 
 function svv_bot_rest( WP_REST_Request $req ) {
 	if ( ! svv_bot_enabled() ) {
 		return new WP_Error( 'svv_bot_off', 'Assistent staat uit.', array( 'status' => 503 ) );
+	}
+	$guard = svv_bot_guard( $req );
+	if ( is_wp_error( $guard ) ) {
+		return $guard;
 	}
 
 	// Gesprek opschonen: rollen user/assistant, afwisselend, beginnend en eindigend met user.
@@ -333,6 +412,8 @@ function svv_bot_admin_page() {
 		<h2>Gebruik</h2>
 		<p>Vandaag: <?php echo (int) ( ( $day['date'] ?? '' ) === current_time( 'Y-m-d' ) ? $day['n'] : 0 ); ?> vragen.<?php echo $err ? ' Laatste fout: ' . esc_html( $err ) : ''; ?></p>
 		<?php $spam = (array) get_option( 'svv_spam', array() ); ?>
+		<?php $blk = (array) get_option( 'svv_bot_blocked', array() ); ?>
+		<p>Chatverzoeken geweigerd (bots en scripts): <?php echo (int) array_sum( $blk ); ?><?php echo $blk ? ' (' . esc_html( implode( ', ', array_map( function ( $k, $v ) { return $k . ' ' . (int) $v; }, array_keys( $blk ), $blk ) ) ) . ')' : ''; ?>.</p>
 		<p>Spam tegengehouden in formulieren: <?php echo (int) array_sum( $spam ); ?><?php echo $spam ? ' (' . esc_html( implode( ', ', array_map( function ( $k, $v ) { return $k . ' ' . (int) $v; }, array_keys( $spam ), $spam ) ) ) . ')' : ''; ?>.</p>
 		<h2>Laatste vragen</h2>
 		<?php if ( ! $log ) : ?>
