@@ -243,7 +243,7 @@
 		var qs = new URLSearchParams(location.search);
 		var sentType = qs.get('verzonden');
 		var lid = qs.get('lid');
-		if (sentType && lid && /^\d+$/.test(lid)) {
+		if (sentType && lid && /^[1-9]\d*$/.test(lid)) {
 			var seenKey = 'svv_lead_' + lid;
 			var seen = false;
 			try { seen = !!localStorage.getItem(seenKey); localStorage.setItem(seenKey, '1'); } catch (e) {}

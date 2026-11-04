@@ -31,7 +31,7 @@ window.svvConsent=(function(){
  function apply(c){
   gtag('consent','update',{analytics_storage:c.a?'granted':'denied',ad_storage:c.m?'granted':'denied',ad_user_data:c.m?'granted':'denied',ad_personalization:c.m?'granted':'denied'});
   dataLayer.push({event:'svv_consent',svv_analytics:c.a?1:0,svv_marketing:c.m?1:0});
-  if(c.m){dataLayer.push({'gtm.start':Date.now(),event:'gtm.js'});load('https://www.googletagmanager.com/gtm.js?id='+GTM);}
+  if(c.m){if(!loaded.gtm){loaded.gtm=1;dataLayer.push({'gtm.start':Date.now(),event:'gtm.js'});}load('https://www.googletagmanager.com/gtm.js?id='+GTM);}
   else if(c.a){load('https://www.googletagmanager.com/gtag/js?id='+GA4);gtag('js',new Date());gtag('config',GA4);}
  }
  function get(){try{var c=JSON.parse(localStorage.getItem('svv_consent')||'null');return c&&c.t&&(Date.now()-c.t)<31536000000?c:null;}catch(e){return null;}}
