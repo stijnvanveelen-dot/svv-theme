@@ -2,7 +2,7 @@
 defined( 'ABSPATH' ) || exit;
 get_header();
 ?>
-<div class="svv-narrow svv-page">
+<div class="svv-page"><div class="svv-narrow">
 	<header class="svv-page__head">
 		<h1 class="svv-h1"><?php echo is_home() ? 'Blog' : esc_html( wp_strip_all_tags( get_the_archive_title() ) ); ?></h1>
 	</header>
@@ -22,6 +22,6 @@ get_header();
 	<?php else : ?>
 		<p>Nog niets te lezen.</p>
 	<?php endif; ?>
-</div>
+</div></div>
 <?php
 get_footer();

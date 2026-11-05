@@ -2,7 +2,7 @@
 defined( 'ABSPATH' ) || exit;
 get_header();
 ?>
-<div class="svv-narrow svv-page">
+<div class="svv-page"><div class="svv-narrow">
 	<header class="svv-page__head">
 		<h1 class="svv-h1">Nieuws</h1>
 		<p class="svv-muted">Wat er verandert in ChatGPT Ads, Google Ads en Meta, en wat je ermee moet.</p>
@@ -28,6 +28,6 @@ get_header();
 	<?php else : ?>
 		<p>Nog geen nieuws.</p>
 	<?php endif; ?>
-</div>
+</div></div>
 <?php
 get_footer();

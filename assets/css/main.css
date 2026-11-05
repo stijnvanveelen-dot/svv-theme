@@ -198,3 +198,4 @@ input,textarea,button{font:inherit;color:inherit}
 .svv-list--nieuws li p{margin-top:4px}
 .svv-list--nieuws li>span{white-space:nowrap}
 .svv-bron{margin-top:32px;padding-top:16px;border-top:1px solid var(--line);color:var(--mist);font-size:14px}
+@media (max-width:640px){.svv-list--nieuws li{flex-direction:column;gap:4px}.svv-list--nieuws li>span{order:-1}}
