@@ -31,5 +31,8 @@ Hook `svv_lead_created` voor de Bigin-koppeling. Honeypot + nonce + max. 5 per u
 ## Nieuws
 `inc/nieuws.php`: berichttype **Nieuws** (wp-admin → Nieuws), archief `/nieuws/`, los van het blog. Kort nieuws over platforms; per bericht een **Bron** (naam + URL, zijbalk in de editor) die onder de tekst verschijnt. Link "Nieuws" in het menu onder Meer. Het eerste bericht (ChatGPT Ads: Target CPA/CPC) wordt na de uitrol automatisch gepubliceerd.
 
+### Dagelijkse nieuwscheck
+Een geplande taak (ma–vr ~6:10) zet nieuwe berichten als Markdown in `nieuws/` (met front matter: title, slug, excerpt, bron_naam, bron_url) en pusht naar `main`. Na de uitrol maakt `inc/nieuws-import.php` er één keer een **concept** van. `nieuws/_log.md` houdt bij wat al behandeld is.
+
 ## Snelheid
 Op homepage, pagina's en nieuws laden de oude Divi-plugins (Bloom, Divi-addons, a3 Lazy Load, CF7, Kraft) niets (`svv_trim_assets()`). Blogberichten houden alles.
