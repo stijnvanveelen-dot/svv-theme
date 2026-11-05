@@ -38,7 +38,7 @@ $photo = get_template_directory_uri() . '/assets/img/stijn.jpg';
 		</div>
 
 		<div class="svv-actions" hidden>
-			<a class="svv-chip" href="#bakkie">Bakkie doen?</a>
+			<a class="svv-chip" href="#bakkie">Gratis scan aanvragen</a>
 			<button type="button" class="svv-chip" data-handoff>Laat Stijn zelf reageren</button>
 		</div>
 

@@ -35,7 +35,7 @@ function svv_form( $type = 'aanvraag', $args = array() ) {
 		if ( 'nieuwsbrief' === $type ) {
 			$ok = 'Je bent aangemeld. De eerste mail komt zodra er nieuwe testresultaten zijn.';
 		} elseif ( 'bakkie' === $type ) {
-			$ok = 'Top. Binnen een werkdag krijg je een paar tijden voorgesteld.';
+			$ok = 'Top. Binnen een werkdag hoor je welke toegang nodig is voor de scan, plus een paar tijden om hem te bespreken.';
 		} else {
 			$ok = 'Dank je. Je hoort binnen een werkdag van me.';
 		}
@@ -70,13 +70,13 @@ function svv_form( $type = 'aanvraag', $args = array() ) {
 				<label><input type="radio" name="svv_where" value="digitaal" checked> Digitaal</label>
 				<label><input type="radio" name="svv_where" value="aan tafel"> Aan tafel</label>
 			</fieldset>
-			<label class="svv-sr" for="<?php echo esc_attr( $uid ); ?>-msg">Waar wil je het over hebben?</label>
-			<textarea id="<?php echo esc_attr( $uid ); ?>-msg" class="svv-input" name="svv_message" rows="2" placeholder="<?php echo esc_attr( $args['topic'] ? 'Waar wil je het over hebben? Bijvoorbeeld ' . $args['topic'] . '.' : 'Waar wil je het over hebben? Mag ook kort.' ); ?>"></textarea>
+			<label class="svv-sr" for="<?php echo esc_attr( $uid ); ?>-msg">Welke kanalen mogen we scannen?</label>
+			<textarea id="<?php echo esc_attr( $uid ); ?>-msg" class="svv-input" name="svv_message" rows="2" placeholder="<?php echo esc_attr( $args['topic'] ? 'Welke kanalen mogen we scannen? Bijvoorbeeld ' . $args['topic'] . '.' : 'Welke kanalen mogen we scannen? Bijvoorbeeld Google Ads en Meta.' ); ?>"></textarea>
 			<label class="svv-sr" for="<?php echo esc_attr( $uid ); ?>-mail">Je zakelijke e-mailadres</label>
 			<input id="<?php echo esc_attr( $uid ); ?>-mail" class="svv-input" type="email" name="svv_email" required placeholder="je zakelijke e-mailadres" autocomplete="email">
 			<label class="svv-sr" for="<?php echo esc_attr( $uid ); ?>-tel">Telefoonnummer (optioneel)</label>
 			<input id="<?php echo esc_attr( $uid ); ?>-tel" class="svv-input" type="tel" name="svv_phone" placeholder="telefoonnummer (optioneel)" autocomplete="tel">
-			<button class="svv-btn" type="submit">Bakkie plannen</button>
+			<button class="svv-btn" type="submit">Gratis scan aanvragen</button>
 		<?php else : ?>
 			<label class="svv-sr" for="<?php echo esc_attr( $uid ); ?>-msg">Je vraag</label>
 			<textarea id="<?php echo esc_attr( $uid ); ?>-msg" name="svv_message" rows="2" required placeholder="<?php echo esc_attr( $args['placeholder'] ); ?>"></textarea>

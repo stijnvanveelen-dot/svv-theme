@@ -32,7 +32,7 @@
 				<a href="<?php echo esc_url( svv_service_url( $slug ) ); ?>"<?php echo svv_is_current( $slug ) ? ' aria-current="page"' : ''; ?>><?php echo esc_html( $label ); ?></a>
 			<?php endforeach; ?>
 			<p class="svv-nav__label">Meer</p>
-			<a class="svv-nav__two" href="<?php echo esc_url( home_url( '/#bakkie' ) ); ?>">Bakkie doen?<small>Zwart, met melk of via Teams</small></a>
+			<a class="svv-nav__two" href="<?php echo esc_url( home_url( '/#bakkie' ) ); ?>">Gratis scan<small>Met een bakkie, zwart of via Teams</small></a>
 			<a href="<?php echo esc_url( home_url( '/#nieuwsbrief' ) ); ?>">Ads-testlab</a>
 		</nav>
 		<p class="svv-status"><span aria-hidden="true"></span>Beschikbaar vanaf <?php echo esc_html( svv_opt( 'svv_available', 'direct' ) ); ?></p>
@@ -41,6 +41,6 @@
 
 <div class="svv-main">
 	<div class="svv-topbar">
-		<a class="svv-btn svv-btn--sm" href="<?php echo esc_url( home_url( '/#bakkie' ) ); ?>">Bakkie doen?</a>
+		<a class="svv-btn svv-btn--sm" href="<?php echo esc_url( home_url( '/#bakkie' ) ); ?>">Gratis scan</a>
 	</div>
 	<main id="inhoud">
