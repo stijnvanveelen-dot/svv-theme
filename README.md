@@ -29,7 +29,7 @@ Hook `svv_lead_created` voor de Bigin-koppeling. Honeypot + nonce + max. 5 per u
 - Meetpunten: `svv_bot_question`, `svv_bot_handoff`.
 
 ## Nieuws
-`inc/nieuws.php`: berichttype **Nieuws** (wp-admin → Nieuws), archief `/nieuws/`, los van het blog. Kort nieuws over platforms; per bericht een **Bron** (naam + URL, zijbalk in de editor) die onder de tekst verschijnt. Link "Nieuws" in het menu onder Meer. Het eerste bericht (ChatGPT Ads: Target CPA/CPC) staat na de uitrol klaar als concept.
+`inc/nieuws.php`: berichttype **Nieuws** (wp-admin → Nieuws), archief `/nieuws/`, los van het blog. Kort nieuws over platforms; per bericht een **Bron** (naam + URL, zijbalk in de editor) die onder de tekst verschijnt. Link "Nieuws" in het menu onder Meer. Het eerste bericht (ChatGPT Ads: Target CPA/CPC) wordt na de uitrol automatisch gepubliceerd.
 
 ## Snelheid
 Op homepage, pagina's en nieuws laden de oude Divi-plugins (Bloom, Divi-addons, a3 Lazy Load, CF7, Kraft) niets (`svv_trim_assets()`). Blogberichten houden alles.

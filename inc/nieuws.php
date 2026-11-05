@@ -4,7 +4,7 @@
  *
  * - Eigen berichttype 'nieuws' met archief /nieuws/ en berichten /nieuws/slug/.
  * - Per bericht een bron (naam + URL), onder de tekst getoond als "Bron: ...".
- * - Eerste bericht (ChatGPT Ads: Target CPA/CPC) wordt één keer als concept aangemaakt.
+ * - Eerste bericht (ChatGPT Ads: Target CPA/CPC) wordt één keer aangemaakt en gepubliceerd.
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -95,7 +95,24 @@ add_filter( 'pre_get_document_title', function ( $title ) {
 	return is_post_type_archive( 'nieuws' ) ? 'Nieuws over ChatGPT Ads, Google Ads en Meta – Stijn van Veelen' : $title;
 }, 25 );
 
-// Eerste bericht één keer als concept klaarzetten.
+// Eerste bericht live: stond het al als concept klaar, dan één keer publiceren.
+add_action( 'init', function () {
+	if ( get_option( 'svv_nieuws_live' ) || ! get_option( 'svv_nieuws_seed' ) ) {
+		return;
+	}
+	$draft = get_posts( array(
+		'post_type'   => 'nieuws',
+		'name'        => 'chatgpt-ads-target-cpa-target-cpc',
+		'post_status' => 'draft',
+		'numberposts' => 1,
+	) );
+	if ( $draft ) {
+		wp_publish_post( $draft[0]->ID );
+	}
+	update_option( 'svv_nieuws_live', 1, false );
+}, 31 );
+
+// Eerste bericht één keer aanmaken en publiceren.
 add_action( 'init', function () {
 	if ( get_option( 'svv_nieuws_seed' ) ) {
 		return;
@@ -118,7 +135,7 @@ add_action( 'init', function () {
 
 	$id = wp_insert_post( array(
 		'post_type'    => 'nieuws',
-		'post_status'  => 'draft',
+		'post_status'  => 'publish',
 		'post_title'   => 'ChatGPT Ads stopt met Max Bid en Max CPC: zo stap je over',
 		'post_name'    => 'chatgpt-ads-target-cpa-target-cpc',
 		'post_excerpt' => 'Vanaf 9 november Target CPA en Target CPC in ChatGPT Ads. Max Bid en Max CPC verdwijnen op 1 januari 2027.',
