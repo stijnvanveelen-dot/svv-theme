@@ -5,7 +5,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'SVV_VERSION', '0.4.0' );
+define( 'SVV_VERSION', '0.5.0' );
 define( 'SVV_TAGLINE', 'Freelance AI Ads specialist' );
 
 /**
@@ -96,7 +96,7 @@ foreach ( array( 'wpseo_metadesc', 'wpseo_opengraph_desc' ) as $svv_hook ) {
  * Blogberichten houden alles (oude berichten kunnen er nog op leunen).
  */
 function svv_lean_page() {
-	return ! is_admin() && ( is_front_page() || is_page() );
+	return ! is_admin() && ( is_front_page() || is_page() || is_singular( 'nieuws' ) || is_post_type_archive( 'nieuws' ) );
 }
 function svv_trim_assets() {
 	if ( ! svv_lean_page() ) {
@@ -242,6 +242,7 @@ require get_template_directory() . '/inc/bot.php';
 require get_template_directory() . '/inc/legacy.php';
 require get_template_directory() . '/inc/brevo.php';
 require get_template_directory() . '/inc/landing.php';
+require get_template_directory() . '/inc/nieuws.php';
 // Eigen cookiemelding; niet dubbel naast Real Cookie Banner.
 if ( ! array_intersect( array( 'real-cookie-banner-pro/index.php', 'real-cookie-banner/index.php' ), (array) get_option( 'active_plugins', array() ) ) ) {
 	require get_template_directory() . '/inc/consent.php';

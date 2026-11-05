@@ -192,3 +192,9 @@ input,textarea,button{font:inherit;color:inherit}
 	.svv-panel{padding:24px}
 }
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+/* Nieuws */
+.svv-list--nieuws li{align-items:baseline}
+.svv-list--nieuws li p{margin-top:4px}
+.svv-list--nieuws li>span{white-space:nowrap}
+.svv-bron{margin-top:32px;padding-top:16px;border-top:1px solid var(--line);color:var(--mist);font-size:14px}

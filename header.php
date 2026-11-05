@@ -34,6 +34,7 @@
 			<p class="svv-nav__label">Meer</p>
 			<a class="svv-nav__two" href="<?php echo esc_url( home_url( '/#bakkie' ) ); ?>">Gratis scan<small>Met een bakkie, zwart of via Teams</small></a>
 			<a href="<?php echo esc_url( home_url( '/ads-testlab/' ) ); ?>"<?php echo is_page( 'ads-testlab' ) ? ' aria-current="page"' : ''; ?>>Ads-testlab</a>
+			<a href="<?php echo esc_url( home_url( '/nieuws/' ) ); ?>"<?php echo ( is_post_type_archive( 'nieuws' ) || is_singular( 'nieuws' ) ) ? ' aria-current="page"' : ''; ?>>Nieuws</a>
 		</nav>
 		<p class="svv-status"><span aria-hidden="true"></span>Beschikbaar vanaf <?php echo esc_html( svv_opt( 'svv_available', 'direct' ) ); ?></p>
 	</div>
