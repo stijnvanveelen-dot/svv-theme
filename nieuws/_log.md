@@ -4,6 +4,7 @@ Behandelde onderwerpen (nieuwste boven). De dagelijkse nieuwscheck vult dit aan 
 
 | Datum | Platform | Onderwerp | Bestand / status |
 |---|---|---|---|
+| 2026-11-13 | ChatGPT Ads | Productfeedcampagnes: regiotargeting binnen een land en meerdere filtervoorwaarden op hetzelfde productveld (productupdate week van 9 nov 2026) | 2026-11-13-chatgpt-ads-productfeed-regio-targeting.md, concept |
 | 2026-11-12 | Google Ads | Demand Gen: Display alleen nog per advertentiegroep, campagne-opt-out verdwijnt uit API (week van 1 dec 2026) | 2026-11-12-demand-gen-display-alleen-op-advertentiegroep.md, concept |
 | 2026-11-09 | Google Ads | Taalinstelling op campagneniveau verdwijnt uit Zoeken-campagnes en Zoeken-deel van PMax (sinds sept 2026, zichtbaar begin nov) | 2026-11-09-taaltargeting-zoeken-verdwijnt.md, concept |
 | 2026-11-06 | Google Ads | Data Manager API ondersteunt belconversies, foutindexen en lead_id-veld (release 4 nov) | 2026-11-06-data-manager-api-belconversies.md, concept |
