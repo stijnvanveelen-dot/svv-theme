@@ -4,6 +4,7 @@ Behandelde onderwerpen (nieuwste boven). De dagelijkse nieuwscheck vult dit aan 
 
 | Datum | Platform | Onderwerp | Bestand / status |
 |---|---|---|---|
+| 2026-11-20 | Microsoft Advertising | Advertenties naast AI Overviews in Bing, alle markten behalve China, via bestaande campagnes (novemberupdate 19 nov 2026) | 2026-11-20-microsoft-ads-in-bing-ai-overviews.md, concept |
 | 2026-11-19 | Google Ads | Demand Gen: seizoensaanpassingen beschikbaar met Target CPA/ROAS (Demand Gen Drop 18 nov 2026) | 2026-11-19-demand-gen-seizoensaanpassingen.md, concept |
 | 2026-11-18 | Google Ads (Google tag) | Google tag wordt Tag Manager-container (release 17 nov 2026); niet-ondersteunde installaties krijgen upgrade in jan 2027 | 2026-11-18-google-tag-wordt-tag-manager-container.md, concept |
 | 2026-11-13 | ChatGPT Ads | Productfeedcampagnes: regiotargeting binnen een land en meerdere filtervoorwaarden op hetzelfde productveld (productupdate week van 9 nov 2026) | 2026-11-13-chatgpt-ads-productfeed-regio-targeting.md, concept |
