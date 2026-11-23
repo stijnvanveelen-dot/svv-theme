@@ -45,9 +45,9 @@ add_action( 'wp_head', function () {
 	$uri = get_template_directory_uri();
 	echo '<link rel="preload" href="' . esc_url( $uri . '/assets/fonts/inter-latin-400-normal.woff2' ) . '" as="font" type="font/woff2" crossorigin>' . "\n";
 	echo '<link rel="preload" href="' . esc_url( $uri . '/assets/fonts/outfit-latin-500-normal.woff2' ) . '" as="font" type="font/woff2" crossorigin>' . "\n";
-	echo '<link rel="icon" href="' . esc_url( $uri . '/assets/img/favicon-32.png' ) . '" sizes="32x32">' . "\n";
-	echo '<link rel="icon" href="' . esc_url( $uri . '/assets/img/favicon-192.png' ) . '" sizes="192x192">' . "\n";
-	echo '<link rel="apple-touch-icon" href="' . esc_url( $uri . '/assets/img/favicon-192.png' ) . '">' . "\n";
+	echo '<link rel="icon" href="' . esc_url( $uri . '/assets/img/favicon-s-32.png' ) . '" sizes="32x32">' . "\n";
+	echo '<link rel="icon" href="' . esc_url( $uri . '/assets/img/favicon-s-192.png' ) . '" sizes="192x192">' . "\n";
+	echo '<link rel="apple-touch-icon" href="' . esc_url( $uri . '/assets/img/favicon-s-192.png' ) . '">' . "\n";
 	echo '<meta name="theme-color" content="#F3F5F9">' . "\n";
 }, 1 );
 
