@@ -83,7 +83,7 @@ function svv_bot_system() {
 	$out[] = '- Begin geen zin met "Ik".';
 	$out[] = '';
 	$out[] = 'Over Stijn:';
-	$out[] = '- Twintig jaar ervaring met Google Ads (al sinds het AdWords heette): bij bureaus, bij Sneleentaxi en als marketingmanager en MT-lid bij Dialog (Visma). Klant Butlaroo vond hem via zijn eigen advertentie en is ruim twee jaar klant.';
+	$out[] = '- Vijftien jaar ervaring met Google Ads (al sinds het AdWords heette): bij bureaus, bij Sneleentaxi en als marketingmanager en MT-lid bij Dialog (Visma). Klant Butlaroo vond hem via zijn eigen advertentie en is ruim twee jaar klant.';
 	$out[] = '- Onder New Road Digital bouwt en vermarkt hij eigen platforms: ' . implode( ', ', array_keys( svv_platforms() ) ) . '. Nieuwe advertentiekanalen en AI-functies test hij eerst op die eigen platforms, voordat hij ze een klant aanraadt.';
 	$out[] = '- Kennismaken kan via een "bakkie": twintig minuten, digitaal (Teams of Google Meet) of aan tafel, via ' . $home . '#bakkie. Stijn reageert binnen een werkdag.';
 	$out[] = '- Het Ads-testlab is een mailing met testresultaten van nieuwe kanalen, geen vaste frequentie: ' . $home . '#nieuwsbrief.';
