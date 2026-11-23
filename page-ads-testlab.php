@@ -6,24 +6,20 @@
 defined( 'ABSPATH' ) || exit;
 get_header();
 
-$photo = get_template_directory_uri() . '/assets/img/stijn.jpg';
 ?>
 
-<section class="svv-hero">
-	<div class="svv-narrow">
-		<div class="svv-hero__head">
-			<img class="svv-portrait" src="<?php echo esc_url( $photo ); ?>" alt="Stijn van Veelen" width="140" height="140" fetchpriority="high">
-			<div>
-				<p class="svv-eyebrow"><span class="svv-grad">Ads-testlab</span></p>
-				<h1 class="svv-h1">ChatGPT Ads getest met echt budget. De cijfers komen in je mail.</h1>
-			</div>
-		</div>
-		<p class="svv-intro">Elk nieuw advertentiekanaal draait eerst op eigen platforms, zoals <?php echo svv_platform_links(); // phpcs:ignore WordPress.Security.EscapeOutput ?>. Wat een test kost, wat hij oplevert en welke instelling het verschil maakte, lees je in het Ads-testlab.</p>
+<section class="svv-hero svv-hero--page">
+	<div class="svv-container">
+		<p class="svv-eyebrow">Voor ondernemers · Google · Meta · ChatGPT</p>
+		<h1 class="svv-display svv-display--md">AI stuurt je advertenties, ik zorg dat ze converteren.</h1>
+		<p class="svv-lead">Vijftien jaar Google Ads-ervaring, nu met een AI-laag: ChatGPT-ads, AI Max in Google en Advantage+ in Meta. Elk nieuw kanaal draait eerst op eigen platforms, zoals <?php echo svv_platform_links(); // phpcs:ignore WordPress.Security.EscapeOutput ?>.</p>
 	</div>
 </section>
 
+<?php get_template_part( 'template-parts/bakkie' ); ?>
+
 <section class="svv-section" id="aanmelden">
-	<div class="svv-wrap">
+	<div class="svv-container">
 		<div class="svv-panel" id="nieuwsbrief">
 			<div class="svv-panel__text">
 				<h2 class="svv-h2">Aanmelden</h2>
@@ -35,7 +31,7 @@ $photo = get_template_directory_uri() . '/assets/img/stijn.jpg';
 </section>
 
 <section class="svv-section svv-section--line">
-	<div class="svv-wrap">
+	<div class="svv-container">
 		<h2 class="svv-h2">Wat er in een mail staat</h2>
 		<div class="svv-cards">
 			<div class="svv-card">
@@ -55,7 +51,7 @@ $photo = get_template_directory_uri() . '/assets/img/stijn.jpg';
 				<p>AI Max in Google Ads en Advantage+ in Meta komen ook langs, zodra er iets te melden valt.</p>
 			</div>
 		</div>
-		<p class="svv-muted" style="margin-top:22px">Eigen campagnes die beter kunnen: de <a href="<?php echo esc_url( home_url( '/#bakkie' ) ); ?>">gratis scan met een bakkie</a> staat ook open.</p>
+		<p class="svv-muted" style="margin-top:22px">Eigen campagnes die beter kunnen: de <a href="#bakkie">gratis scan met een bakkie</a> staat ook open.</p>
 	</div>
 </section>
 

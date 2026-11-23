@@ -20,7 +20,7 @@ add_action( 'init', function () {
 } );
 
 /**
- * Formulier-HTML. $type: aanvraag | bakkie | nieuwsbrief
+ * Formulier-HTML. $type: aanvraag | bakkie | nieuwsbrief | cv
  */
 function svv_form( $type = 'aanvraag', $args = array() ) {
 	$args = wp_parse_args( $args, array(
@@ -34,6 +34,8 @@ function svv_form( $type = 'aanvraag', $args = array() ) {
 	if ( $sent ) {
 		if ( 'nieuwsbrief' === $type ) {
 			$ok = 'Je bent aangemeld. De eerste mail komt zodra er nieuwe testresultaten zijn.';
+		} elseif ( 'cv' === $type ) {
+			$ok = 'Dank je. Je ontvangt mijn CV persoonlijk per mail, meestal binnen een werkdag.';
 		} elseif ( 'bakkie' === $type ) {
 			$ok = 'Top. Binnen een werkdag hoor je welke toegang nodig is voor de scan, plus een paar tijden om hem te bespreken.';
 		} else {
@@ -64,6 +66,15 @@ function svv_form( $type = 'aanvraag', $args = array() ) {
 			<label class="svv-sr" for="<?php echo esc_attr( $uid ); ?>-mail">Je e-mailadres</label>
 			<input id="<?php echo esc_attr( $uid ); ?>-mail" class="svv-input svv-input--pill" type="email" name="svv_email" required placeholder="je e-mailadres" autocomplete="email">
 			<button class="svv-btn" type="submit"><?php echo esc_html( $args['button'] ); ?></button>
+		<?php elseif ( 'cv' === $type ) : ?>
+			<label for="<?php echo esc_attr( $uid ); ?>-name">Naam</label>
+			<input id="<?php echo esc_attr( $uid ); ?>-name" class="svv-input" type="text" name="svv_name" required autocomplete="name">
+			<label for="<?php echo esc_attr( $uid ); ?>-mail">Zakelijk e-mailadres</label>
+			<input id="<?php echo esc_attr( $uid ); ?>-mail" class="svv-input" type="email" name="svv_email" required autocomplete="email">
+			<label for="<?php echo esc_attr( $uid ); ?>-org">Organisatie of bureau</label>
+			<input id="<?php echo esc_attr( $uid ); ?>-org" class="svv-input" type="text" name="svv_org" required autocomplete="organization">
+			<label class="svv-check"><input type="checkbox" name="svv_consent" value="1" required> Ik ga ermee akkoord dat mijn gegevens alleen worden gebruikt om contact op te nemen over deze aanvraag.</label>
+			<button class="svv-btn" type="submit">CV opvragen</button>
 		<?php elseif ( 'bakkie' === $type ) : ?>
 			<fieldset class="svv-choice">
 				<legend class="svv-sr">Waar drinken we koffie?</legend>
@@ -132,7 +143,7 @@ function svv_handle_lead() {
 	set_transient( $ip_key, $count + 1, HOUR_IN_SECONDS );
 
 	$type    = sanitize_key( wp_unslash( $_POST['svv_type'] ?? 'aanvraag' ) );
-	$type    = in_array( $type, array( 'aanvraag', 'bakkie', 'nieuwsbrief' ), true ) ? $type : 'aanvraag';
+	$type    = in_array( $type, array( 'aanvraag', 'bakkie', 'nieuwsbrief', 'cv' ), true ) ? $type : 'aanvraag';
 	$email   = sanitize_email( wp_unslash( $_POST['svv_email'] ?? '' ) );
 	$message = sanitize_textarea_field( wp_unslash( $_POST['svv_message'] ?? '' ) );
 	$page    = esc_url_raw( wp_unslash( $_POST['svv_page'] ?? '' ) );
@@ -142,6 +153,16 @@ function svv_handle_lead() {
 	$transcript = sanitize_textarea_field( wp_unslash( $_POST['svv_transcript'] ?? '' ) );
 	if ( $transcript ) {
 		$message = trim( $message . "\n\n--- Gesprek met de AI-assistent ---\n" . mb_substr( $transcript, 0, 8000 ) );
+	}
+	$name = sanitize_text_field( wp_unslash( $_POST['svv_name'] ?? '' ) );
+	$org  = sanitize_text_field( wp_unslash( $_POST['svv_org'] ?? '' ) );
+	if ( 'cv' === $type ) {
+		// CV gaat nooit automatisch mee: Stijn stuurt het zelf, na toestemming.
+		if ( '' === $name || '' === $org || empty( $_POST['svv_consent'] ) ) {
+			wp_safe_redirect( $back );
+			exit;
+		}
+		$message = "CV-aanvraag\nNaam: {$name}\nOrganisatie: {$org}\nToestemming contact: ja";
 	}
 	if ( 'bakkie' === $type ) {
 		$message = trim( 'Voorkeur: ' . ( $where ?: 'onbekend' ) . ( $phone ? "\nTelefoon: {$phone}" : '' ) . "\n\n" . $message );
@@ -160,7 +181,7 @@ function svv_handle_lead() {
 	$lead_id = wp_insert_post( array(
 		'post_type'    => 'svv_lead',
 		'post_status'  => 'private',
-		'post_title'   => ucfirst( $type ) . ' — ' . $email,
+		'post_title'   => ( 'cv' === $type ? 'CV-aanvraag' : ucfirst( $type ) ) . ' — ' . ( $name ? $name . ', ' : '' ) . $email,
 		'post_content' => $message,
 		'meta_input'   => array(
 			'svv_type'  => $type,
@@ -168,17 +189,19 @@ function svv_handle_lead() {
 			'svv_page'  => $page,
 			'svv_phone' => $phone,
 			'svv_where' => $where,
+			'svv_name'  => $name,
+			'svv_org'   => $org,
 		),
 	) );
 
-	$subject = '[stijnvanveelen.nl] ' . ucfirst( $type ) . ' van ' . $email;
+	$subject = '[stijnvanveelen.nl] ' . ( 'cv' === $type ? 'CV-aanvraag' : ucfirst( $type ) ) . ' van ' . ( $name ? $name . ' (' . $org . ')' : $email );
 	$body    = "Type: {$type}\nE-mail: {$email}\nPagina: {$page}\n\n{$message}";
 	wp_mail( get_option( 'admin_email' ), $subject, $body, array( 'Reply-To: ' . $email ) );
 
 	/**
 	 * Hook voor CRM-koppeling (Bigin).
 	 */
-	do_action( 'svv_lead_created', $lead_id, compact( 'type', 'email', 'message', 'page', 'phone', 'where' ) );
+	do_action( 'svv_lead_created', $lead_id, compact( 'type', 'email', 'message', 'page', 'phone', 'where', 'name', 'org' ) );
 
 	wp_safe_redirect( add_query_arg( array( 'verzonden' => $type, 'lid' => (int) $lead_id ), remove_query_arg( array( 'verzonden', 'lid' ), $back ) ) . '#' . ( 'aanvraag' === $type ? 'vraag' : $type ) );
 	exit;

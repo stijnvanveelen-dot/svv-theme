@@ -5,8 +5,8 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'SVV_VERSION', '0.5.0' );
-define( 'SVV_TAGLINE', 'Freelance AI Ads specialist' );
+define( 'SVV_VERSION', '1.0.0' );
+define( 'SVV_TAGLINE', 'Marketing Manager' );
 
 /**
  * Diensten in het menu. Slugs van bestaande pagina's behouden (zoekwaarde).
@@ -44,11 +44,11 @@ add_action( 'wp_enqueue_scripts', function () {
 add_action( 'wp_head', function () {
 	$uri = get_template_directory_uri();
 	echo '<link rel="preload" href="' . esc_url( $uri . '/assets/fonts/inter-latin-400-normal.woff2' ) . '" as="font" type="font/woff2" crossorigin>' . "\n";
-	echo '<link rel="preload" href="' . esc_url( $uri . '/assets/fonts/source-serif-4-latin-400-normal.woff2' ) . '" as="font" type="font/woff2" crossorigin>' . "\n";
+	echo '<link rel="preload" href="' . esc_url( $uri . '/assets/fonts/outfit-latin-500-normal.woff2' ) . '" as="font" type="font/woff2" crossorigin>' . "\n";
 	echo '<link rel="icon" href="' . esc_url( $uri . '/assets/img/favicon-32.png' ) . '" sizes="32x32">' . "\n";
 	echo '<link rel="icon" href="' . esc_url( $uri . '/assets/img/favicon-192.png' ) . '" sizes="192x192">' . "\n";
 	echo '<link rel="apple-touch-icon" href="' . esc_url( $uri . '/assets/img/favicon-192.png' ) . '">' . "\n";
-	echo '<meta name="theme-color" content="#1F252B">' . "\n";
+	echo '<meta name="theme-color" content="#F3F5F9">' . "\n";
 }, 1 );
 
 // Oude WordPress-sitepictogrammen (2018) niet meer tonen: het thema levert de favicons.
@@ -69,7 +69,7 @@ add_filter( 'wpseo_opengraph_title', function ( $title ) {
 	return is_front_page() ? svv_home_title() : $title;
 } );
 add_filter( 'wpseo_metadesc', function ( $desc ) {
-	return is_front_page() ? 'Adverteren in ChatGPT, Google Ads met AI Max, Microsoft Ads en social ads. Twintig jaar ervaring, elk nieuw kanaal eerst getest op eigen platforms.' : $desc;
+	return is_front_page() ? 'Marketing manager met vijftien jaar ervaring in digital marketing, sales en commerciële leiding. Marketing die stuurt op bewijs: performance, SEO & GEO, data en automation.' : $desc;
 } );
 
 /**
@@ -202,17 +202,14 @@ function svv_is_current( $slug ) {
 }
 
 /**
- * Logo A (ring met sparkle) als inline SVG.
+ * Logo: blauwe cirkel met S en gele stip, als inline SVG.
+ * $ring = kleur van de rand om de stip (gelijk aan de achtergrond).
  */
-function svv_logo( $size = 36, $bg = '#181D22' ) {
-	static $n = 0;
-	$n++;
-	$id = 'svvg' . $n;
+function svv_logo( $size = 40, $ring = '#F3F5F9' ) {
 	return sprintf(
-		'<svg aria-hidden="true" width="%1$d" height="%1$d" viewBox="0 0 48 48"><defs><linearGradient id="%2$s" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7FA9FF"/><stop offset=".55" stop-color="#AE94FF"/><stop offset="1" stop-color="#F08AAE"/></linearGradient></defs><circle cx="24" cy="24" r="21" fill="none" stroke="url(#%2$s)" stroke-width="2"/><text x="24" y="31.5" text-anchor="middle" font-family="Source Serif 4, Georgia, serif" font-size="23" fill="#FFFFFF">S</text><path d="M38 4C38.3 6.9 40.1 8.7 43 9C40.1 9.3 38.3 11.1 38 14C37.7 11.1 35.9 9.3 33 9C35.9 8.7 37.7 6.9 38 4Z" fill="url(#%2$s)" stroke="%3$s" stroke-width="2.5" paint-order="stroke"/></svg>',
+		'<svg aria-hidden="true" width="%1$d" height="%1$d" viewBox="0 0 48 48"><circle cx="24" cy="24" r="22" fill="#1F5FD6"/><text x="24" y="32" text-anchor="middle" font-family="Outfit, Inter, Arial, sans-serif" font-weight="500" font-size="25" fill="#FFFFFF">S</text><circle cx="39.5" cy="8.5" r="6" fill="#FFC34D" stroke="%2$s" stroke-width="2.5"/></svg>',
 		(int) $size,
-		esc_attr( $id ),
-		esc_attr( $bg )
+		esc_attr( $ring )
 	);
 }
 
@@ -222,9 +219,9 @@ function svv_logo( $size = 36, $bg = '#181D22' ) {
 add_action( 'customize_register', function ( $wp_customize ) {
 	$wp_customize->add_section( 'svv', array( 'title' => 'Stijn van Veelen' ) );
 	$fields = array(
-		'svv_available'     => array( 'Beschikbaar vanaf', 'direct' ),
 		'svv_calendar'      => array( 'Agendalink voor een bakkie (optioneel)', '' ),
 		'svv_kvk'           => array( 'KvK-nummer', '70585245' ),
+		'svv_email'         => array( 'E-mailadres op de site', 'info@stijnvanveelen.nl' ),
 		'svv_linkedin'      => array( 'LinkedIn-URL', 'https://www.linkedin.com/in/stijn-van-veelen' ),
 	);
 	foreach ( $fields as $key => $f ) {
