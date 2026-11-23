@@ -6,7 +6,7 @@
 defined( 'ABSPATH' ) || exit;
 
 define( 'SVV_VERSION', '1.0.0' );
-define( 'SVV_TAGLINE', 'Marketing Manager' );
+define( 'SVV_TAGLINE', 'Growth Marketing Manager' );
 
 /**
  * Diensten in het menu. Slugs van bestaande pagina's behouden (zoekwaarde).
@@ -69,7 +69,7 @@ add_filter( 'wpseo_opengraph_title', function ( $title ) {
 	return is_front_page() ? svv_home_title() : $title;
 } );
 add_filter( 'wpseo_metadesc', function ( $desc ) {
-	return is_front_page() ? 'Marketing manager met vijftien jaar ervaring in digital marketing, sales en commerciële leiding. Marketing die stuurt op bewijs: performance, SEO & GEO, data en automation.' : $desc;
+	return is_front_page() ? 'Growth marketing manager met vijftien jaar ervaring in digital marketing, sales en commerciële leiding. Marketing die stuurt op bewijs: performance, SEO & GEO, data en automation.' : $desc;
 } );
 
 /**

@@ -1,6 +1,6 @@
 # svv-theme — stijnvanveelen.nl
 
-Eigen WordPress-thema voor stijnvanveelen.nl — profielsite (Marketing Manager), met een aparte pagina voor ondernemers.
+Eigen WordPress-thema voor stijnvanveelen.nl — profielsite (Growth Marketing Manager), met een aparte pagina voor ondernemers.
 
 - Licht ontwerp (v1.0): wit en lichtgrijs, blauw #1F5FD6 als accent, geel #FFC34D als stip. Logo: blauwe cirkel met S en gele stip (`svv_logo()`).
 - Lettertypes lokaal (Outfit voor koppen, Inter voor tekst) — geen Google Fonts-verzoeken.

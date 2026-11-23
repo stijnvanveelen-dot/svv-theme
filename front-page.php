@@ -38,7 +38,7 @@ $jobs = array(
 	<div class="svv-container svv-hero__in">
 		<div class="svv-hero__text">
 			<h1 class="svv-display">Marketing die stuurt op bewijs.</h1>
-			<p class="svv-lead">Marketing manager met vijftien jaar ervaring in digital marketing, sales en commerciële leiding.</p>
+			<p class="svv-lead">Growth marketing manager met vijftien jaar ervaring in digital marketing, sales en commerciële leiding.</p>
 			<div class="svv-actions">
 				<a class="svv-btn svv-btn--lg" href="#contact">Kennismaken</a>
 				<a class="svv-btn svv-btn--ghost svv-btn--lg" href="#over">Bekijk mijn loopbaan</a>
@@ -174,7 +174,7 @@ $jobs = array(
 		<div class="svv-contact">
 			<div class="svv-contact__text">
 				<h2 class="svv-h2">Kennismaken?</h2>
-				<p>Op zoek naar een marketing manager die strategie en uitvoering verbindt? Ik maak graag kennis, online of bij een kop koffie.</p>
+				<p>Op zoek naar een growth marketing manager die strategie en uitvoering verbindt? Ik maak graag kennis, online of bij een kop koffie.</p>
 				<p class="svv-contact__links"><a href="mailto:<?php echo esc_attr( $email ); ?>"><?php echo esc_html( $email ); ?></a> · <a href="<?php echo esc_url( svv_opt( 'svv_linkedin', 'https://www.linkedin.com/in/stijn-van-veelen' ) ); ?>" rel="noopener">LinkedIn</a></p>
 			</div>
 			<div class="svv-cvbox" id="cv">
