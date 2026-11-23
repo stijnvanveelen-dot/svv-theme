@@ -38,3 +38,6 @@ Een geplande taak (ma–vr ~6:10) zet nieuwe berichten als Markdown in `nieuws/`
 
 ## Snelheid
 Op homepage, pagina's en nieuws laden de oude Divi-plugins (Bloom, Divi-addons, a3 Lazy Load, CF7, Kraft) niets (`svv_trim_assets()`). Blogberichten houden alles.
+
+## Cache
+Na elke uitrol leegt het thema één keer de LiteSpeed-cache (`inc/content-fixes.php`, op basis van de bestandsdatum van de themabestanden). Eenmalige inhoudscorrecties staan in hetzelfde bestand.

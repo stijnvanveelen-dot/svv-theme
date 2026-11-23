@@ -49,3 +49,19 @@ add_action( 'init', function () {
 		do_action( 'litespeed_purge_all' );
 	}
 }, 40 );
+
+/**
+ * Na elke uitrol (gewijzigde themabestanden) de LiteSpeed-cache één keer legen,
+ * zodat pagina's niet naar oude CSS, favicons of teksten blijven verwijzen.
+ */
+add_action( 'init', function () {
+	$dir   = get_template_directory();
+	$stamp = 0;
+	foreach ( array( 'functions.php', 'header.php', 'footer.php', 'front-page.php', 'assets/css/main.css', 'assets/js/main.js' ) as $file ) {
+		$stamp = max( $stamp, (int) @filemtime( $dir . '/' . $file ) ); // phpcs:ignore WordPress.PHP.NoSilencedErrors
+	}
+	if ( $stamp && (int) get_option( 'svv_deploy_stamp' ) !== $stamp ) {
+		update_option( 'svv_deploy_stamp', $stamp, false );
+		do_action( 'litespeed_purge_all' );
+	}
+}, 41 );
