@@ -8,40 +8,24 @@
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
 <a class="svv-skip" href="#inhoud">Naar de inhoud</a>
-<div class="svv-shell">
-
-<aside class="svv-side" id="menu">
-	<div class="svv-side__top">
-		<a class="svv-brand" href="<?php echo esc_url( home_url( '/' ) ); ?>" aria-label="Stijn van Veelen, <?php echo esc_attr( SVV_TAGLINE ); ?> — naar de homepage">
-			<?php echo svv_logo( 36 ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
-			<span><strong>Stijn van Veelen</strong><small><?php echo esc_html( SVV_TAGLINE ); ?></small></span>
+<?php $svv_home = home_url( '/' ); ?>
+<header class="svv-header">
+	<div class="svv-container svv-header__in">
+		<a class="svv-brand" href="<?php echo esc_url( $svv_home ); ?>" aria-label="Stijn van Veelen, <?php echo esc_attr( SVV_TAGLINE ); ?> — naar de homepage">
+			<?php echo svv_logo( 40 ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
 		</a>
 		<button class="svv-menu-toggle" type="button" aria-expanded="false" aria-controls="svv-nav">
 			<span class="svv-sr">Menu</span>
 			<svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
 		</button>
-	</div>
-	<div class="svv-side__body" id="svv-nav">
-		<a class="svv-new" href="<?php echo esc_url( home_url( '/' ) ); ?>" data-svv-new>
-			<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-			Nieuw gesprek
-		</a>
-		<nav aria-label="Diensten" class="svv-nav">
-			<p class="svv-nav__label">Diensten</p>
-			<?php foreach ( svv_services() as $slug => $label ) : ?>
-				<a href="<?php echo esc_url( svv_service_url( $slug ) ); ?>"<?php echo svv_is_current( $slug ) ? ' aria-current="page"' : ''; ?>><?php echo esc_html( $label ); ?></a>
-			<?php endforeach; ?>
-			<p class="svv-nav__label">Meer</p>
-			<a class="svv-nav__two" href="<?php echo esc_url( home_url( '/#bakkie' ) ); ?>">Gratis scan<small>Met een bakkie, zwart of via Teams</small></a>
-			<a href="<?php echo esc_url( home_url( '/ads-testlab/' ) ); ?>"<?php echo is_page( 'ads-testlab' ) ? ' aria-current="page"' : ''; ?>>Ads-testlab</a>
+		<nav class="svv-nav" id="svv-nav" aria-label="Hoofdmenu">
+			<a href="<?php echo esc_url( $svv_home . '#werkgebieden' ); ?>">Werkgebieden</a>
+			<a href="<?php echo esc_url( $svv_home . '#werkwijze' ); ?>">Werkwijze</a>
+			<a href="<?php echo esc_url( $svv_home . '#over' ); ?>">Over mij</a>
 			<a href="<?php echo esc_url( home_url( '/nieuws/' ) ); ?>"<?php echo ( is_post_type_archive( 'nieuws' ) || is_singular( 'nieuws' ) ) ? ' aria-current="page"' : ''; ?>>Nieuws</a>
+			<a class="svv-btn svv-btn--ghost svv-btn--sm" href="<?php echo esc_url( $svv_home . '#contact' ); ?>">Contact</a>
+			<a class="svv-btn svv-btn--sm" href="<?php echo esc_url( $svv_home . '#cv' ); ?>">CV opvragen</a>
 		</nav>
-		<p class="svv-status"><span aria-hidden="true"></span>Beschikbaar vanaf <?php echo esc_html( svv_opt( 'svv_available', 'direct' ) ); ?></p>
 	</div>
-</aside>
-
-<div class="svv-main">
-	<div class="svv-topbar">
-		<a class="svv-btn svv-btn--sm" href="<?php echo esc_url( home_url( '/#bakkie' ) ); ?>">Gratis scan</a>
-	</div>
-	<main id="inhoud">
+</header>
+<main id="inhoud">

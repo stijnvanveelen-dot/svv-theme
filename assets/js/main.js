@@ -5,13 +5,19 @@
 		if (window.dataLayer) { window.dataLayer.push(data); }
 	}
 
-	// Mobiel menu
-	var side = document.querySelector('.svv-side');
+	// Mobiel menu (uitklappen in de kopbalk; sluit na een klik op een link)
+	var side = document.querySelector('.svv-header');
 	var toggle = document.querySelector('.svv-menu-toggle');
 	if (side && toggle) {
 		toggle.addEventListener('click', function () {
 			var open = side.classList.toggle('is-open');
 			toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+		});
+		side.querySelectorAll('.svv-nav a').forEach(function (a) {
+			a.addEventListener('click', function () {
+				side.classList.remove('is-open');
+				toggle.setAttribute('aria-expanded', 'false');
+			});
 		});
 	}
 
