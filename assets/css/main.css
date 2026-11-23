@@ -150,7 +150,7 @@ h1,h2,h3,p{margin:0}
 .svv-platform__visual.is-mint::before{left:-60px;top:-70px}
 .svv-platform__visual::after{content:"";position:absolute;border-radius:50%}
 .svv-platform__visual.is-yellow::after{left:30px;bottom:-40px;width:110px;height:110px;border:2px solid rgba(31,37,43,.25)}
-.svv-platform__visual.is-mint::after{right:40px;bottom:30px;width:44px;height:44px;background:var(--blue)}
+.svv-platform__visual.is-mint::after{content:none}
 .svv-platform__logo{position:relative;background:#fff;border-radius:20px;padding:26px 34px;box-shadow:0 12px 30px rgba(20,26,32,.15);max-width:80%}
 .svv-platform__logo.is-left{transform:rotate(-4deg)}
 .svv-platform__logo.is-right{transform:rotate(3deg)}
