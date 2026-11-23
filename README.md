@@ -6,7 +6,7 @@ Eigen WordPress-thema voor stijnvanveelen.nl — profielsite (Marketing Manager)
 - Lettertypes lokaal (Outfit voor koppen, Inter voor tekst) — geen Google Fonts-verzoeken.
 - Homepage (`front-page.php`): hero met portret, werkgebieden, werkwijze, eigen platforms, over mij, contact met **CV opvragen** (opt-in, geen vrije download).
 - Ondernemers (scan + Ads-testlab): `/ads-testlab/`, alleen gelinkt vanuit de footer. Dienstpagina's blijven bestaan voor vindbaarheid, maar staan niet meer in het menu.
-- Uitrol: Hostinger Git → `public_html/wp-content/themes/svv-theme` (eerst staging).
+- Uitrol: Hostinger Git → `public_html/wp-content/themes/svv-theme` vanaf `main` (er is geen staging). Grote wijzigingen gaan via een pull request; terugdraaien kan met een revert-commit op `main`.
 
 ## Instellen na activeren
 1. Weergave → Customizer → **Stijn van Veelen**: agendalink voor een bakkie (optioneel), KvK, e-mailadres op de site, LinkedIn. Geen prijzen op de site; tarieven gaan telefonisch.
