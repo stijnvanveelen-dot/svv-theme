@@ -298,7 +298,9 @@ function svv_seo_desc( $desc ) {
 		return 'Kort nieuws over ChatGPT Ads, Google Ads en Meta: wat er verandert in de platforms en wat je ermee moet. Bijgehouden door Stijn van Veelen.';
 	}
 	if ( is_category() || is_tag() ) {
-		return sprintf( 'Artikelen over %s: praktische uitleg en handleidingen van growth marketing manager Stijn van Veelen.', mb_strtolower( single_term_title( '', false ) ) );
+		$name = single_term_title( '', false );
+		$name = mb_strtoupper( $name ) === $name ? $name : mb_strtolower( $name );
+		return sprintf( 'Artikelen over %s: praktische uitleg en handleidingen van growth marketing manager Stijn van Veelen.', $name );
 	}
 	return $desc;
 }

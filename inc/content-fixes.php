@@ -68,6 +68,27 @@ function svv_content_fixes() {
 				update_option( 'wpseo_titles', $titles );
 			}
 		},
+		// Yoast bewaart titel en URL per bericht (indexables). Na de directe databasewijziging
+		// hierboven die rijen weggooien, zodat Yoast canonical, kruimelpad en schema opnieuw opbouwt.
+		'2026-11-seo-audit-yoast' => function () {
+			global $wpdb;
+			$table = $wpdb->prefix . 'yoast_indexable';
+			if ( $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $table ) ) !== $table ) { // phpcs:ignore WordPress.DB
+				return;
+			}
+			$slugs = array( 'hoe-je-je-website-snelheid-en-seo-verbeterd-met-wp-rocket-2' );
+			foreach ( svv_seo_pages() as $slug => $cfg ) {
+				if ( ! empty( $cfg['title'] ) || ! empty( $cfg['slug'] ) ) {
+					$slugs[] = ! empty( $cfg['slug'] ) ? $cfg['slug'] : $slug;
+				}
+			}
+			$in  = implode( ',', array_fill( 0, count( $slugs ), '%s' ) );
+			$ids = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM {$wpdb->posts} WHERE post_name IN ($in) AND post_type IN ('post','page')", $slugs ) ); // phpcs:ignore WordPress.DB
+			if ( $ids ) {
+				$ids = array_map( 'intval', $ids );
+				$wpdb->query( "DELETE FROM {$table} WHERE object_type = 'post' AND object_id IN (" . implode( ',', $ids ) . ')' ); // phpcs:ignore WordPress.DB
+			}
+		},
 	);
 }
 
