@@ -41,3 +41,9 @@ Op homepage, pagina's en nieuws laden de oude Divi-plugins (Bloom, Divi-addons, 
 
 ## Cache
 Na elke uitrol leegt het thema één keer de LiteSpeed-cache (`inc/content-fixes.php`, op basis van de bestandsdatum van de themabestanden). Eenmalige inhoudscorrecties staan in hetzelfde bestand.
+
+## SEO (25-11-2026, `inc/seo.php`)
+- `svv_seo_pages()`: per slug een nieuwe paginatitel (eenmalig via content-fixes), SEO-titel en meta description. Deze meta's gaan voor Yoast.
+- Titels: " – Stijn van Veelen" valt weg als de titel daarmee langer wordt dan 60 tekens. Categorieën en tags krijgen een eigen titel en meta.
+- Nieuws zonder meta → samenvatting. Schema: `NewsArticle` bij nieuws, `ProfilePage` + `Person` (jobTitle = `SVV_TAGLINE`) op de homepage, jobTitle bij de auteur in Yoast.
+- Doorverwijzingen `svv_seo_redirects()`: dubbel WP Rocket-bericht en de oude TranslatePress-slug.

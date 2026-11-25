@@ -241,6 +241,7 @@ require get_template_directory() . '/inc/brevo.php';
 require get_template_directory() . '/inc/landing.php';
 require get_template_directory() . '/inc/nieuws.php';
 require get_template_directory() . '/inc/nieuws-import.php';
+require get_template_directory() . '/inc/seo.php';
 require get_template_directory() . '/inc/content-fixes.php';
 // Eigen cookiemelding; niet dubbel naast Real Cookie Banner.
 if ( ! array_intersect( array( 'real-cookie-banner-pro/index.php', 'real-cookie-banner/index.php' ), (array) get_option( 'active_plugins', array() ) ) ) {
