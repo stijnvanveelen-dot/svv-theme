@@ -4,6 +4,7 @@ Behandelde onderwerpen (nieuwste boven). De dagelijkse nieuwscheck vult dit aan 
 
 | Datum | Platform | Onderwerp | Bestand / status |
 |---|---|---|---|
+| 2026-11-27 | ChatGPT Ads | Business Agents: e-commerce en online dienstverleners buiten de VS kunnen bedrijf claimen en agent publiceren, ook sponsoren als advertentiebestemming (update 19 nov 2026) | 2026-11-27-chatgpt-business-agents-buiten-vs.md, concept |
 | 2026-11-20 | Microsoft Advertising | Advertenties naast AI Overviews in Bing, alle markten behalve China, via bestaande campagnes (novemberupdate 19 nov 2026) | 2026-11-20-microsoft-ads-in-bing-ai-overviews.md, concept |
 | 2026-11-19 | Google Ads | Demand Gen: seizoensaanpassingen beschikbaar met Target CPA/ROAS (Demand Gen Drop 18 nov 2026) | 2026-11-19-demand-gen-seizoensaanpassingen.md, concept |
 | 2026-11-18 | Google Ads (Google tag) | Google tag wordt Tag Manager-container (release 17 nov 2026); niet-ondersteunde installaties krijgen upgrade in jan 2027 | 2026-11-18-google-tag-wordt-tag-manager-container.md, concept |
